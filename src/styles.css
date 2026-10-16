@@ -464,11 +464,12 @@ ul {
 }
 .s2-unit {
   flex: none;
-  width: 931px;
+  width: var(--unit-w, 931px);
   height: 80px;
   display: flex;
   align-items: center;
-} /* 931 = distance between stars */
+}
+/* 931 = distance between stars */
 .s2-star {
   flex: none;
   width: 26px;
@@ -485,7 +486,7 @@ ul {
 }
 @keyframes marquee {
   to {
-    transform: translateX(-931px);
+    transform: translateX(calc(-1 * var(--unit-w, 931px)));
   }
 }
 
@@ -1531,10 +1532,14 @@ ul {
   overflow: hidden;
 }
 .tm-track {
+  --tm-w: 930px;
+  --tm-gap: 30px;
+  --tm-start: 525px;
+  --unit: calc(var(--tm-n, 3) * (var(--tm-w) + var(--tm-gap)));
   display: flex;
-  gap: 30px;
+  gap: var(--tm-gap);
   width: max-content;
-  animation: tm-move 40s linear infinite; /* <- speed (bigger = slower) */
+  animation: tm-move 40s linear infinite;
 }
 .tm-marquee:hover .tm-track {
   animation-play-state: paused;
@@ -1542,10 +1547,10 @@ ul {
 /* starts on the 2nd copy at x 525, ends on the 3rd copy at x 525 (looks identical) */
 @keyframes tm-move {
   from {
-    transform: translateX(calc(525px - var(--unit)));
+    transform: translateX(calc(var(--tm-start) - var(--unit)));
   }
   to {
-    transform: translateX(calc(525px - 2 * var(--unit)));
+    transform: translateX(calc(var(--tm-start) - 2 * var(--unit)));
   }
 }
 
@@ -1553,7 +1558,7 @@ ul {
 .tm-card {
   position: relative;
   flex: none;
-  width: 930px;
+  width: var(--tm-w);
   height: 450px;
   border-radius: 30px;
   overflow: hidden;
@@ -1637,7 +1642,7 @@ ul {
 @media (prefers-reduced-motion: reduce) {
   .tm-track {
     animation: none;
-    transform: translateX(calc(525px - var(--unit)));
+    transform: translateX(calc(var(--tm-start) - var(--unit)));
   }
 }
 
@@ -2322,5 +2327,668 @@ ul {
   }
   .fo-social:hover {
     transform: none;
+  }
+}
+
+/* =====================================================================
+   RESPONSIVE: STACKED MODE (below FLOW_BREAKPOINT in data.js)
+   Stage.jsx adds "stage--flow". The pixel x/y/w/h above stop applying.
+   ===================================================================== */
+body {
+  overflow-x: hidden;
+}
+.viewport--flow {
+  height: auto;
+  overflow: visible;
+}
+
+.stage--flow {
+  --pad: clamp(16px, 5vw, 48px);
+  width: 100%;
+  height: auto;
+  transform: none;
+  overflow: visible;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  padding: 24px var(--pad) 56px;
+}
+@media (max-width: 699px) {
+  .stage--flow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* everything that was placed with x / y / w / h becomes normal flow */
+.stage--flow > * {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0;
+  grid-column: 1 / -1;
+  white-space: normal !important;
+}
+.stage--flow
+  :is(
+    .triangle,
+    .baseline,
+    .diagonal,
+    .link-line,
+    .dot,
+    .bn-band,
+    .ws-band,
+    .bb--glow,
+    .s2-about-line,
+    .fo-rule,
+    .gc-shade
+  ) {
+  display: none !important;
+}
+.stage--flow
+  :is(
+    .s2-heading,
+    .fp-title,
+    .wc-kicker,
+    .tm-kicker,
+    .ws-kicker,
+    .pp-box,
+    .bb,
+    .fq,
+    .jn
+  ) {
+  margin-top: 48px;
+}
+
+/* ---------- header + hero ---------- */
+.stage--flow > .logo {
+  justify-content: center;
+  padding-top: 8px;
+}
+.stage--flow > .nav {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 12px;
+}
+.stage--flow .nav ul {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 22px;
+  padding: 0;
+  height: auto;
+}
+.stage--flow .nav a {
+  font-size: 16px;
+}
+
+.stage--flow #home {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px 20px;
+  align-items: start;
+}
+.stage--flow #home > * {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+  grid-column: 1 / -1;
+}
+.stage--flow .kicker {
+  font-size: 20px;
+  line-height: 1.3;
+  white-space: normal;
+}
+.stage--flow .title {
+  font-size: clamp(40px, 11vw, 80px);
+  line-height: 1.05;
+  white-space: normal;
+}
+.stage--flow .quote {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 36em;
+}
+.stage--flow #home > .circle {
+  position: relative !important;
+  width: 72px !important;
+  height: 72px !important;
+  justify-self: start;
+}
+.stage--flow .circle__icon {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-left: 2px;
+}
+.stage--flow .image {
+  aspect-ratio: 2 / 1;
+  border-radius: 16px;
+}
+.stage--flow .info {
+  font-size: 16px;
+  line-height: 1.6;
+}
+.stage--flow #home > .btn-solid {
+  grid-column: 1;
+  padding: 0 26px;
+  height: 47px !important;
+}
+.stage--flow #home > .btn-link {
+  grid-column: 2;
+  height: 47px !important;
+}
+
+/* ---------- section 2: image, heading, about, 4 cards ---------- */
+.stage--flow > .s2-image {
+  width: min(100%, 500px) !important;
+  aspect-ratio: 5 / 6;
+  justify-self: center;
+  border-radius: 24px;
+}
+.stage--flow .s2-heading {
+  font-size: clamp(28px, 6.4vw, 52px);
+  line-height: 1.15;
+}
+.stage--flow .s2-about-text {
+  font-size: 16px;
+  line-height: 1.65;
+}
+.stage--flow > .s2-card {
+  grid-column: auto;
+  padding: 22px 20px 24px !important;
+}
+
+/* ---------- scrolling texts: full width, smaller ---------- */
+.stage--flow > :is(.s2-marquee, .tm-marquee) {
+  width: calc(100% + 2 * var(--pad)) !important;
+  margin-inline: calc(-1 * var(--pad));
+  overflow: hidden;
+}
+.stage--flow > .s2-marquee {
+  height: 60px !important;
+}
+.stage--flow .s2-track {
+  --unit-w: 560px;
+  margin-left: 12px;
+}
+.stage--flow .s2-unit {
+  height: 60px;
+}
+.stage--flow .s2-unit span {
+  margin-left: 20px;
+  font-size: 38px;
+  line-height: 60px;
+}
+.stage--flow .s2-item {
+  font-size: 38px;
+  line-height: 60px;
+}
+.stage--flow .s2-item .s2-star {
+  margin: 0 20px;
+}
+
+/* ---------- 3 big cards (no sticky on small screens) ---------- */
+.stage--flow > .gc-track {
+  height: auto !important;
+  display: grid;
+  gap: 24px;
+}
+.stage--flow .gc {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  transform: none !important;
+  padding: 20px 20px 28px;
+  border-radius: 22px;
+}
+.stage--flow .gc > * {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+}
+.stage--flow .gc-image {
+  width: 100% !important;
+  aspect-ratio: 1;
+  max-height: 420px;
+}
+.stage--flow .gc-title {
+  font-size: clamp(28px, 7vw, 40px);
+  line-height: 1.1;
+  margin: 22px 0 12px;
+}
+.stage--flow .gc-desc {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.stage--flow .gc-list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(5, auto);
+  grid-template-columns: 1fr 1fr;
+  margin: 16px 0;
+}
+.stage--flow .gc-list li {
+  line-height: 30px;
+}
+.stage--flow .gc-btn {
+  width: fit-content !important;
+  height: 48px !important;
+  padding: 0 24px;
+  margin-top: 8px;
+}
+
+/* ---------- stats grids ---------- */
+.stage--flow > .st {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+@media (max-width: 699px) {
+  .stage--flow > .st {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.stage--flow .st-card {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 300px;
+  padding: 26px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.stage--flow .st-card > * {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+}
+.stage--flow .st-num {
+  order: 1;
+  font-size: 56px;
+  line-height: 1;
+}
+.stage--flow .st-label {
+  order: 2;
+  font-size: 17px;
+}
+.stage--flow .st-btn {
+  order: 3;
+  align-self: flex-start;
+  min-width: 180px;
+  height: 46px !important;
+  gap: 16px;
+}
+.stage--flow .st-card .st-img {
+  order: 4;
+  width: 100% !important;
+  height: 200px !important;
+  object-fit: contain;
+  margin-top: auto;
+}
+
+/* ---------- featured projects + banner ---------- */
+.stage--flow .fp-title {
+  font-size: clamp(34px, 8vw, 52px);
+  line-height: 1.1;
+}
+.stage--flow .fp-text {
+  font-size: 16px;
+}
+.stage--flow > .fp-btn {
+  justify-self: start;
+  padding: 0 24px;
+  height: 49px !important;
+}
+.stage--flow .fp-list li {
+  height: auto;
+  line-height: 36px;
+}
+.stage--flow > .fp-image {
+  aspect-ratio: 750 / 549;
+  border-radius: 16px;
+}
+.stage--flow .fp-caption {
+  font-size: clamp(18px, 4.5vw, 28px);
+}
+.stage--flow > .bn-image {
+  aspect-ratio: 1787 / 800;
+  border-radius: clamp(20px, 5vw, 60px);
+}
+
+/* ---------- pricing ---------- */
+.stage--flow .pp-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  padding: 28px 16px 24px;
+  height: auto;
+}
+.stage--flow .pp-inner > * {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+}
+.stage--flow :is(.pp-title, .pp-sub, .pp-rule) {
+  grid-column: 1 / -1;
+}
+.stage--flow .pp-title {
+  font-size: clamp(30px, 7vw, 52px);
+}
+.stage--flow .pp-sub {
+  font-size: 15px;
+}
+.stage--flow .pp-rule {
+  height: 1px !important;
+  display: block;
+}
+.stage--flow .pp-card {
+  padding: 28px 20px 30px;
+}
+.stage--flow .pp-card > * {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+}
+.stage--flow .pp-price {
+  font-size: 52px;
+}
+.stage--flow .pp-name {
+  font-size: 26px;
+  margin: 8px 0 18px;
+}
+.stage--flow .pp-cardrule {
+  display: block;
+  height: 1px !important;
+  margin: 0 -20px;
+}
+.stage--flow .pp-features {
+  margin: 16px 0 22px;
+}
+.stage--flow .pp-features li {
+  height: 40px;
+  font-size: 15px;
+}
+.stage--flow .pp-btn {
+  width: 100% !important;
+  max-width: 260px;
+  height: 52px !important;
+  margin: 0 auto;
+}
+
+/* ---------- BrandBreak ---------- */
+.stage--flow > .bb {
+  width: 100% !important;
+  aspect-ratio: 1717 / 357;
+}
+
+/* ---------- why choose us ---------- */
+.stage--flow :is(.wc-kicker, .ws-kicker, .tm-kicker) {
+  font-size: 20px;
+}
+.stage--flow :is(.wc-heading, .ws-heading) {
+  font-size: clamp(28px, 6.4vw, 40px);
+  line-height: 1.25;
+}
+.stage--flow :is(.wc-quote, .ws-quote) {
+  font-size: 15px;
+  line-height: 1.7;
+}
+.stage--flow > .wc {
+  grid-column: auto;
+  padding: 26px 24px 30px;
+}
+.stage--flow > .wc[data-i="4"] {
+  grid-column: 1 / -1;
+}
+.stage--flow .wc-title {
+  font-size: 26px;
+  line-height: 1.25;
+  margin-top: 22px;
+}
+.stage--flow .wc-text {
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: none;
+}
+
+/* ---------- testimonials ---------- */
+.stage--flow .tm-heading {
+  font-size: clamp(30px, 7vw, 40px);
+  line-height: 1.2;
+}
+.stage--flow .tm-sub {
+  font-size: 15px;
+  padding: 0 8px;
+}
+.stage--flow > .tm-marquee {
+  height: auto !important;
+}
+.stage--flow .tm-track {
+  --tm-w: min(86vw, 520px);
+  --tm-gap: 16px;
+  --tm-start: var(--pad);
+  animation-duration: 30s;
+}
+.stage--flow .tm-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: auto;
+  padding: 28px 24px;
+}
+.stage--flow .tm-card > * {
+  position: static !important;
+  width: auto !important;
+}
+.stage--flow .tm-quote {
+  position: relative !important;
+  font-size: 16px;
+  line-height: 1.7;
+  text-align: left;
+}
+.stage--flow .tm-photo {
+  width: 96px !important;
+  height: 96px !important;
+}
+.stage--flow .tm-name {
+  font-size: 19px;
+}
+.stage--flow .tm-role2:empty {
+  display: none;
+}
+
+/* ---------- FAQ ---------- */
+.stage--flow .fq-title {
+  font-size: clamp(24px, 5.6vw, 30px);
+  line-height: 1.4;
+}
+.stage--flow .fq-sub {
+  font-size: 15px;
+}
+.stage--flow .fq-q {
+  height: auto;
+  padding: 22px 4px;
+  gap: 16px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.stage--flow .fq-a {
+  padding: 0 4px 24px;
+  font-size: 15px;
+}
+
+/* ---------- join us ---------- */
+.stage--flow > .jn {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+.stage--flow .jn > .jn-kicker {
+  position: relative !important;
+  grid-column: 1 / -1;
+  padding-left: 22px;
+}
+.stage--flow .jn-dot {
+  left: 2px;
+}
+.stage--flow .jn-left,
+.stage--flow .jn-form {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 24px;
+}
+.stage--flow .jn-left > *,
+.stage--flow .jn-form > * {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+}
+.stage--flow .jn-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.stage--flow .jn-left > * {
+  flex: 1 1 100%;
+}
+.stage--flow .jn-photo {
+  width: 100% !important;
+  aspect-ratio: 371 / 199;
+  height: auto !important;
+}
+.stage--flow .jn-text {
+  font-size: 14px;
+}
+.stage--flow .jn-follow,
+.stage--flow .jn-social {
+  flex: 0 0 auto;
+}
+.stage--flow .jn-social {
+  width: 40px !important;
+  height: 40px !important;
+}
+.stage--flow .jn-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 16px;
+  align-content: start;
+}
+.stage--flow .jn-field[data-f="email"],
+.stage--flow .jn-field[data-f="title"],
+.stage--flow .jn-field[data-f="message"] {
+  grid-column: 1 / -1;
+}
+.stage--flow .jn-btn {
+  height: 50px !important;
+  justify-content: center;
+  padding: 0 22px;
+}
+.stage--flow .jn-form > .jn-sr {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+}
+@media (min-width: 900px) {
+  .stage--flow > .jn {
+    grid-template-columns: 5fr 7fr;
+  }
+}
+@media (max-width: 599px) {
+  .stage--flow .jn-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- footer ---------- */
+.stage--flow > .fo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px 24px;
+  width: calc(100% + 2 * var(--pad)) !important;
+  margin: 48px calc(-1 * var(--pad)) -56px;
+  padding: 44px var(--pad) 0;
+}
+.stage--flow .fo > * {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+}
+.stage--flow .fo :is(.fo-logo, .fo-about, .fo-copy) {
+  grid-column: 1 / -1;
+}
+.stage--flow .fo-col li {
+  height: 38px;
+  line-height: 38px;
+}
+.stage--flow .fo-contact {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 12px 14px;
+  align-items: center;
+}
+.stage--flow .fo-contact > *,
+.stage--flow .fo-follow > * {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+}
+.stage--flow .fo-contact .fo-title {
+  grid-column: 1 / -1;
+}
+.stage--flow .fo-phone-1 {
+  grid-column: 2;
+}
+.stage--flow .fo-follow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-content: flex-start;
+}
+.stage--flow .fo-follow .fo-title {
+  flex: 1 1 100%;
+}
+.stage--flow .fo-ico,
+.stage--flow .fo-social {
+  width: 36px !important;
+  height: 36px !important;
+}
+.stage--flow .fo-copy {
+  margin: 24px calc(-1 * var(--pad)) 0;
+  padding: 0 var(--pad);
+  line-height: 46px;
+}
+@media (max-width: 699px) {
+  .stage--flow .fo-contact,
+  .stage--flow .fo-follow {
+    grid-column: 1 / -1;
   }
 }

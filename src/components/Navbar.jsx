@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Logo from "./Logo.jsx";
-import { brand, navLinks } from "../data.js";
+import { useContent } from "../content/ContentProvider.jsx";
 
 export default function Navbar() {
   const [active, setActive] = useState("home");
+  const { brand, navLinks } = useContent();
 
   return (
     <>

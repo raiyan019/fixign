@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { slides, cta, SLIDE_DURATION } from "../data.js";
+import { useContent } from "../content/ContentProvider.jsx";
 
 export default function Hero() {
+  const { slides, cta, SLIDE_DURATION } = useContent();
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [imgFailed, setImgFailed] = useState(false);
@@ -11,7 +12,7 @@ export default function Hero() {
     if (!playing) return;
     const t = setTimeout(
       () => setIndex((i) => (i + 1) % slides.length),
-      SLIDE_DURATION
+      SLIDE_DURATION,
     );
     return () => clearTimeout(t);
   }, [index, playing]);
@@ -30,7 +31,9 @@ export default function Hero() {
       <span className="dot" aria-hidden="true" />
 
       {/* left text */}
-      <p key={`k${slide.id}`} className="kicker swap">{slide.kicker}</p>
+      <p key={`k${slide.id}`} className="kicker swap">
+        {slide.kicker}
+      </p>
       <h1 key={`t${slide.id}`} className="title swap">
         {slide.title.map((line) => (
           <span key={line}>{line}</span>
@@ -60,7 +63,12 @@ export default function Hero() {
         onClick={() => setPlaying((p) => !p)}
         aria-label={playing ? "Pause slideshow" : "Play slideshow"}
       >
-        <svg className="circle__icon" viewBox="0 0 12 14" fill="#fff" aria-hidden="true">
+        <svg
+          className="circle__icon"
+          viewBox="0 0 12 14"
+          fill="#fff"
+          aria-hidden="true"
+        >
           {playing ? (
             <>
               <rect x="1" y="1" width="3.5" height="12" />
@@ -84,14 +92,22 @@ export default function Hero() {
         )}
       </div>
 
-      <p key={`d${slide.id}`} className="info swap">{slide.description}</p>
+      <p key={`d${slide.id}`} className="info swap">
+        {slide.description}
+      </p>
 
       <a className="btn-solid" href={cta.primary.href}>
         {cta.primary.label}
       </a>
       <a className="btn-link" href={cta.secondary.href}>
         {cta.secondary.label}
-        <svg width="30" height="10" viewBox="0 0 30 10" fill="none" aria-hidden="true">
+        <svg
+          width="30"
+          height="10"
+          viewBox="0 0 30 10"
+          fill="none"
+          aria-hidden="true"
+        >
           <path d="M0 5h28M24 1l4 4-4 4" stroke="#fff" strokeWidth="1.2" />
         </svg>
       </a>

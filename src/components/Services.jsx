@@ -2,29 +2,7 @@ import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Logo from "./Logo.jsx";
-import {
-  about,
-  services,
-  serviceImage,
-  graphicCards,
-  statCards,
-  marquee2,
-  featured,
-  banner,
-  pricing,
-  brandBreak,
-  whyUs,
-  testimonials,
-  faq,
-  join,
-  joinToast,
-  brand,
-  footer,
-  FAQ_DEFAULT_OPEN,
-  marqueeText,
-  DEFAULT_ACTIVE_CARD,
-  DESIGN_W,
-} from "../data.js";
+import { useContent } from "../content/ContentProvider.jsx";
 
 function Star() {
   return (
@@ -206,6 +184,7 @@ const MailIcon = () => (
 );
 
 function JoinUs() {
+  const { join, joinToast } = useContent();
   const { kicker, person, form } = join;
   const empty = Object.fromEntries(form.fields.map((f) => [f.name, ""]));
   const [values, setValues] = useState(empty);
@@ -250,12 +229,29 @@ function JoinUs() {
       return;
     }
     setStatus("sending");
-    // TODO: replace this timer with your real request (fetch to Formspree etc.)
-    setTimeout(() => {
+
+    const done = () => {
       setStatus("sent");
       setValues(empty);
       showToast(joinToast.success);
-    }, 900);
+    };
+
+    const api = import.meta.env.VITE_API_URL;
+    if (!api) {
+      setTimeout(done, 900);
+      return;
+    } // no backend yet
+
+    fetch(`${api}/contact`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    })
+      .then((r) => (r.ok ? done() : Promise.reject()))
+      .catch(() => {
+        setStatus("idle");
+        showToast(joinToast.failed);
+      });
   };
 
   return (
@@ -355,7 +351,6 @@ function JoinUs() {
   );
 }
 
-const TM_PITCH = 960; // card 930 + gap 30. Change together with .tm-card in styles.css
 /* ---- sticky stack settings (Figma px) ---- */
 const CARD_H = 720; // card height
 const GAP = 120; // space between cards before they stack
@@ -363,7 +358,6 @@ const OFFSET = 24; // each stacked card sits 24px lower than the previous
 const SHRINK = 0.05; // how much a card shrinks when the next one covers it
 const DIM = 0.35; // how dark a covered card gets (0 to 1)
 const STEP = CARD_H + GAP;
-const TRACK_H = graphicCards.length * STEP - GAP;
 
 /* counts up from 0 the first time it scrolls into view */
 function CountUp({ to, suffix = "" }) {
@@ -524,6 +518,7 @@ function FooterColumn({ className, data }) {
 }
 
 function Footer() {
+  const { brand, footer } = useContent();
   return (
     <footer className="fo">
       {/* same logo as the navbar */}
@@ -541,58 +536,65 @@ function Footer() {
       <FooterColumn className="fo-quick" data={footer.quick} />
 
       {/* contact */}
-      <h3 className="fo-title fo-title--contact">{footer.contact.title}</h3>
-      <span className="fo-ico fo-ico--phone" aria-hidden="true">
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#2a6ed6"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-        </svg>
-      </span>
-      {footer.contact.phones.map((p, i) => (
-        <a key={i} className={`fo-line fo-phone-${i}`} href={`tel:${p}`}>
-          {p}
-        </a>
-      ))}
-      <span className="fo-ico fo-ico--mail" aria-hidden="true">
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#2a6ed6"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect x="2" y="4" width="20" height="16" rx="2" />
-          <path d="m22 7-10 6L2 7" />
-        </svg>
-      </span>
-      <a className="fo-line fo-mail" href={`mailto:${footer.contact.email}`}>
-        {footer.contact.email}
-      </a>
+      <div className="fo-contact">
+        <div className="fo-follow">
+          <h3 className="fo-title fo-title--contact">{footer.contact.title}</h3>
+          <span className="fo-ico fo-ico--phone" aria-hidden="true">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#2a6ed6"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+          </span>
+          {footer.contact.phones.map((p, i) => (
+            <a key={i} className={`fo-line fo-phone-${i}`} href={`tel:${p}`}>
+              {p}
+            </a>
+          ))}
+          <span className="fo-ico fo-ico--mail" aria-hidden="true">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#2a6ed6"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="m22 7-10 6L2 7" />
+            </svg>
+          </span>
+          <a
+            className="fo-line fo-mail"
+            href={`mailto:${footer.contact.email}`}
+          >
+            {footer.contact.email}
+          </a>
+        </div>
 
-      {/* follow */}
-      <h3 className="fo-title fo-title--follow">{footer.follow.title}</h3>
-      {footer.follow.socials.map((s, i) => (
-        <a
-          key={s.id}
-          className="fo-social"
-          style={{ "--i": i }}
-          href={s.href}
-          aria-label={s.label}
-        >
-          <SocialIcon id={s.id} />
-        </a>
-      ))}
+        {/* follow */}
+        <h3 className="fo-title fo-title--follow">{footer.follow.title}</h3>
+        {footer.follow.socials.map((s, i) => (
+          <a
+            key={s.id}
+            className="fo-social"
+            style={{ "--i": i }}
+            href={s.href}
+            aria-label={s.label}
+          >
+            <SocialIcon id={s.id} />
+          </a>
+        ))}
+      </div>
 
       <span className="fo-rule" aria-hidden="true" />
       <p className="fo-copy">{footer.copyright}</p>
@@ -601,6 +603,27 @@ function Footer() {
 }
 
 export default function Services() {
+  const {
+    about,
+    services,
+    serviceImage,
+    graphicCards,
+    statCards,
+    marquee2,
+    featured,
+    banner,
+    pricing,
+    brandBreak,
+    whyUs,
+    testimonials,
+    faq,
+    FAQ_DEFAULT_OPEN,
+    marqueeText,
+    DEFAULT_ACTIVE_CARD,
+    DESIGN_W,
+    FLOW_BREAKPOINT,
+  } = useContent();
+  const TRACK_H = graphicCards.length * STEP - GAP;
   const [active, setActive] = useState(DEFAULT_ACTIVE_CARD);
   const [openFaq, setOpenFaq] = useState(FAQ_DEFAULT_OPEN);
   const [project, setProject] = useState(0);
@@ -620,6 +643,11 @@ export default function Services() {
       raf = 0;
       const track = trackRef.current;
       if (!track) return;
+      if (document.documentElement.clientWidth < FLOW_BREAKPOINT) {
+        cardRefs.current.forEach((el) => el && (el.style.transform = ""));
+        shadeRefs.current.forEach((el) => el && (el.style.opacity = 0));
+        return;
+      }
 
       const scale = document.documentElement.clientWidth / DESIGN_W;
       const vh = window.innerHeight / scale; // screen height in Figma px
@@ -666,7 +694,7 @@ export default function Services() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, []);
+  }, [graphicCards.length]);
 
   return (
     <>
@@ -934,7 +962,7 @@ export default function Services() {
       <div className="tm-marquee">
         <div
           className="tm-track"
-          style={{ "--unit": `${testimonials.items.length * TM_PITCH}px` }}
+          style={{ "--tm-n": testimonials.items.length }}
         >
           {/* 3 copies of the list so the loop never shows a gap. Only the middle one is read by screen readers. */}
           {[0, 1, 2].map((set) =>

@@ -54,7 +54,7 @@ export const SLIDE_DURATION = 5000; // ms
 // Figma frame size. Change these if your frame is not 1920 x 1080.
 export const DESIGN_W = 1920;
 export const DESIGN_H = 1047; // hero height = Rectangle 70's Y in Figma
-
+export const FLOW_BREAKPOINT = 1100; // below this width the stacked layout is used
 /* ===================== SECTION 2 (Services) ===================== */
 export const SECTION2_H = 14340; // was 13690
 
@@ -367,6 +367,11 @@ export const joinToast = {
     type: "error",
     title: "Please check the form",
     text: "Fill in the required fields with a valid email.",
+  },
+  failed: {
+    type: "error",
+    title: "Could not send",
+    text: "Something went wrong. Please try again.",
   },
 };
 
