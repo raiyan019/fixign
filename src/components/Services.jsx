@@ -183,7 +183,7 @@ const MailIcon = () => (
   </svg>
 );
 
-function JoinUs() {
+export function JoinUs({ top }) {
   const { join, joinToast } = useContent();
   const { kicker, person, form } = join;
   const empty = Object.fromEntries(form.fields.map((f) => [f.name, ""]));
@@ -255,7 +255,7 @@ function JoinUs() {
   };
 
   return (
-    <div className="jn" id="contact">
+    <div className="jn" id="contact" style={top != null ? { top } : undefined}>
       <h2 className="jn-kicker">
         <span className="jn-dot" aria-hidden="true" />
         {kicker}
@@ -517,10 +517,10 @@ function FooterColumn({ className, data }) {
   );
 }
 
-function Footer() {
+export function Footer({ top }) {
   const { brand, footer } = useContent();
   return (
-    <footer className="fo">
+    <footer className="fo" style={top != null ? { top } : undefined}>
       {/* same logo as the navbar */}
       <div className="fo-logo">
         <Logo name={brand.name} />
@@ -644,8 +644,25 @@ export default function Services() {
       const track = trackRef.current;
       if (!track) return;
       if (document.documentElement.clientWidth < FLOW_BREAKPOINT) {
-        cardRefs.current.forEach((el) => el && (el.style.transform = ""));
-        shadeRefs.current.forEach((el) => el && (el.style.opacity = 0));
+        // phone / tablet: CSS sticky does the pinning, this only adds shrink + dim
+        const vh = window.innerHeight;
+        const n = cardRefs.current.length;
+        for (let i = 0; i < n; i++) {
+          let cover = 0;
+          for (let j = i + 1; j < n; j++) {
+            const nextEl = cardRefs.current[j];
+            if (!nextEl) continue;
+            const pin = 16 + j * 14; // same numbers as the CSS: 16px + 14px per card
+            const top = nextEl.getBoundingClientRect().top;
+            cover += Math.min(1, Math.max(0, (vh - top) / (vh - pin)));
+          }
+          const el = cardRefs.current[i];
+          const shade = shadeRefs.current[i];
+          if (!el) continue;
+          el.style.transform = reduce ? "" : `scale(${1 - SHRINK * cover})`;
+          if (shade)
+            shade.style.opacity = reduce ? 0 : Math.min(1, DIM * cover);
+        }
         return;
       }
 
@@ -759,7 +776,7 @@ export default function Services() {
           <article
             key={card.id}
             className="gc"
-            style={{ top: i * STEP, zIndex: i + 1 }}
+            style={{ top: i * STEP, zIndex: i + 1, "--i": i }}
             ref={(el) => (cardRefs.current[i] = el)}
           >
             <div className="gc-image">
@@ -909,8 +926,10 @@ export default function Services() {
         </div>
       </div>
       {/* ===== SECTION 8 : BrandBreak ===== */}
-      <BrandBreak text={brandBreak} glow /> {/* drop-shadow glow, behind */}
-      <BrandBreak text={brandBreak} />
+      <div className="bb-wrap">
+        <BrandBreak text={brandBreak} glow />
+        <BrandBreak text={brandBreak} />
+      </div>
       {/* ===== SECTION 9 : scrolling text under BrandBreak ===== */}
       <div className="s2-marquee s2-marquee--3" aria-hidden="true">
         <div className="s2-track2">

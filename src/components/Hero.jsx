@@ -4,7 +4,7 @@ import { useContent } from "../content/ContentProvider.jsx";
 export default function Hero() {
   const { slides, cta, SLIDE_DURATION } = useContent();
   const [index, setIndex] = useState(0);
-  const [playing, setPlaying] = useState(true);
+  const playing = true;
   const [imgFailed, setImgFailed] = useState(false);
   const slide = slides[index];
 
@@ -30,6 +30,11 @@ export default function Hero() {
       <span className="link-line" aria-hidden="true" />
       <span className="dot" aria-hidden="true" />
 
+      <div className="circle" aria-hidden="true">
+        <svg className="circle__icon" viewBox="0 0 12 14" fill="#e6e6e6">
+          <path d="M1 1l10 6-10 6V1Z" />
+        </svg>
+      </div>
       {/* left text */}
       <p key={`k${slide.id}`} className="kicker swap">
         {slide.kicker}
@@ -56,29 +61,6 @@ export default function Hero() {
       <blockquote key={`q${slide.id}`} className="quote swap">
         “{slide.quote}”
       </blockquote>
-
-      {/* circle + play icon */}
-      <button
-        className="circle"
-        onClick={() => setPlaying((p) => !p)}
-        aria-label={playing ? "Pause slideshow" : "Play slideshow"}
-      >
-        <svg
-          className="circle__icon"
-          viewBox="0 0 12 14"
-          fill="#fff"
-          aria-hidden="true"
-        >
-          {playing ? (
-            <>
-              <rect x="1" y="1" width="3.5" height="12" />
-              <rect x="7.5" y="1" width="3.5" height="12" />
-            </>
-          ) : (
-            <path d="M1 1l10 6-10 6V1Z" />
-          )}
-        </svg>
-      </button>
 
       {/* right side */}
       <div className="image">

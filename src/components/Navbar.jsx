@@ -1,15 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "./Logo.jsx";
 import { useContent } from "../content/ContentProvider.jsx";
 
-export default function Navbar() {
-  const [active, setActive] = useState("home");
+export default function Navbar({ current = "home" }) {
   const { brand, navLinks } = useContent();
+  const [active, setActive] = useState(current);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => setActive(current), [current]);
+
+  const go = (id) => {
+    setActive(id);
+    setOpen(false);
+  };
 
   return (
-    <>
+    <header className="hdr">
       <Logo name={brand.name} />
-      <nav className="nav" aria-label="Main">
+
+      <button
+        className={`burger ${open ? "burger--open" : ""}`}
+        aria-label={open ? "Close menu" : "Open menu"}
+        aria-expanded={open}
+        aria-controls="main-nav"
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <nav
+        id="main-nav"
+        className={`nav ${open ? "nav--open" : ""}`}
+        aria-label="Main"
+      >
         <ul>
           {navLinks.map((link) => (
             <li key={link.id}>
@@ -17,7 +42,7 @@ export default function Navbar() {
                 href={link.href}
                 className={active === link.id ? "is-active" : ""}
                 aria-current={active === link.id ? "page" : undefined}
-                onClick={() => setActive(link.id)}
+                onClick={() => go(link.id)}
               >
                 {link.label}
               </a>
@@ -25,6 +50,6 @@ export default function Navbar() {
           ))}
         </ul>
       </nav>
-    </>
+    </header>
   );
 }

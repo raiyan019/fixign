@@ -2,7 +2,7 @@ export const brand = { name: "FiXiGN" };
 
 export const navLinks = [
   { id: "home", label: "Home", href: "#home" },
-  { id: "services", label: "Services", href: "#services" },
+  { id: "services", label: "Services", href: "#/services" },
   { id: "pricing", label: "Pricing", href: "#pricing" },
   { id: "works", label: "Works", href: "#works" },
   { id: "career", label: "Career", href: "#career" },
@@ -45,7 +45,7 @@ export const slides = [
 ];
 
 export const cta = {
-  primary: { label: "Our Services", href: "#services" },
+  primary: { label: "Our Services", href: "#/services" },
   secondary: { label: "See Portfolio", href: "#works" },
 };
 
@@ -385,12 +385,12 @@ export const footer = {
   services: {
     title: "Services",
     links: [
-      { label: "UX/UI Design", href: "#services" },
-      { label: "Web Design", href: "#services" },
-      { label: "Graphic Design", href: "#services" },
-      { label: "Mobile App Design", href: "#services" },
-      { label: "Web App Development", href: "#services" },
-      { label: "Branding Design", href: "#services" },
+      { label: "UX/UI Design", href: "#/services" },
+      { label: "Web Design", href: "#/services" },
+      { label: "Graphic Design", href: "#/services" },
+      { label: "Mobile App Design", href: "#/services" },
+      { label: "Web App Development", href: "#/services" },
+      { label: "Branding Design", href: "#/services" },
     ],
   },
   quick: {
@@ -419,4 +419,97 @@ export const footer = {
     ],
   },
   copyright: "©2025. Fixign. All Right Reserved.",
+};
+
+/* ===================== SERVICES PAGE ===================== */
+export const SV_H = 7630; // was 6020. Page height now includes the form and the footer
+
+export const servicesPage = {
+  heading: ["Digital Product Design", "& Consulting"],
+  accent: "Services", // yellow word at the end of the last line
+  text: "Our Global digital product design agency helps brands to make top-quality SaaS, MVP, software, mobile apps, and websites. We focus on user-friendly designs that look great and work smoothly. Let us help your business grow with our expert digital product solutions.",
+  button: { label: "Design My Product Now", href: "#contact" },
+};
+
+/* ===================== SERVICES PAGE: 6 CARDS ===================== */
+export const SC_ALTERNATE = true; // true = image side alternates (left, right, left...). false = always left.
+
+const scBase = {
+  image: "/images/graphic-design.png",
+  title: "GRAPHIC DESIGN",
+  text: "Design services are built around understanding users, business goals, and the latest design standards to deliver solutions that are intuitive, engaging, and impactful.",
+  // 10 categories: first 5 in column 1, last 5 in column 2.
+  // href is the link. "#/services" keeps you on this page until you add the real links.
+  categories: Array.from({ length: 10 }, () => ({
+    label: "Category 01",
+    href: "#/services",
+  })),
+  button: { label: "Start Now", href: "#contact" },
+};
+
+export const serviceCards = [
+  { ...scBase, id: 1 },
+  { ...scBase, id: 2, title: "UX/UI DESIGN" },
+  { ...scBase, id: 3, title: "WEB DESIGN" },
+  { ...scBase, id: 4, title: "MOBILE APP DESIGN" },
+  { ...scBase, id: 5, title: "WEB APP DEVELOPMENT" },
+  { ...scBase, id: 6, title: "BRANDING DESIGN" },
+];
+// To give one card its own categories, for example:
+// { ...scBase, id: 2, title: "UX/UI DESIGN", categories: [
+//     { label: "UX Research", href: "/ux-research" },
+//     { label: "Wireframing", href: "/wireframing" },
+//   ] },
+
+/* ===================== SERVICES PAGE: OUR EXPERTISE ===================== */
+export const expertise = {
+  label: "Our Expertise",
+  text: "We’ve worked with dozens of app businesses across industries to design digital product. Here are some industries where we excel, but our expertise extends far beyond:",
+  cta: "View work", // text of the button that appears on hover
+  // href = link of each card ("#/services" is a placeholder until you add the real ones)
+  // accent = color of the soft glow. image = put it in /public/images
+  items: [
+    {
+      id: 1,
+      title: "E-Commerce",
+      accent: "#ff6a2b",
+      image: "/images/expertise-1.png",
+      href: "#/services",
+    },
+    {
+      id: 2,
+      title: "Edu-Tech",
+      accent: "#8e3a9a",
+      image: "/images/expertise-2.png",
+      href: "#/services",
+    },
+    {
+      id: 3,
+      title: "Fintech",
+      accent: "#d9ea1f",
+      image: "/images/expertise-3.png",
+      href: "#/services",
+    },
+    {
+      id: 4,
+      title: "Corporate",
+      accent: "#9a52ff",
+      image: "/images/expertise-4.png",
+      href: "#/services",
+    },
+    {
+      id: 5,
+      title: "Health tech",
+      accent: "#e69be6",
+      image: "/images/expertise-5.png",
+      href: "#/services",
+    },
+    {
+      id: 6,
+      title: "SaaS Application",
+      accent: "#15e6ea",
+      image: "/images/expertise-6.png",
+      href: "#/services",
+    },
+  ],
 };
