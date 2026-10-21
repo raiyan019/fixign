@@ -517,10 +517,16 @@ function FooterColumn({ className, data }) {
   );
 }
 
-export function Footer({ top }) {
+export function Footer({ top, flowOrder }) {
   const { brand, footer } = useContent();
   return (
-    <footer className="fo" style={top != null ? { top } : undefined}>
+    <footer
+      className="fo"
+      style={{
+        ...(top != null ? { top } : {}),
+        ...(flowOrder != null ? { order: flowOrder } : {}),
+      }}
+    >
       {/* same logo as the navbar */}
       <div className="fo-logo">
         <Logo name={brand.name} />

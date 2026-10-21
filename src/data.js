@@ -516,7 +516,7 @@ export const expertise = {
 
 /* ===================== ABOUT US PAGE ===================== */
 export const AB_H = 520; // banner height
-export const AB_PAGE_H = 5873; // was 4629. Page now includes Testimonials + Global Clients
+export const AB_PAGE_H = 6523; // was 5873. Page now ends with the footer (650px tall)
 
 export const aboutPage = {
   title: "ABOUT US",

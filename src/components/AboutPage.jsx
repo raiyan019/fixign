@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Stage from "./Stage.jsx";
 import Navbar from "./Navbar.jsx";
-import { CountUp, Star, Testimonials } from "./Services.jsx";
+import { CountUp, Star, Testimonials, Footer } from "./Services.jsx";
 import { useContent } from "../content/ContentProvider.jsx";
 
 const Bulb = () => (
@@ -299,6 +299,9 @@ export default function AboutPage() {
           ))}
         </ul>
       </section>
+
+      {/* ===== same footer as the other pages ===== */}
+      <Footer top={5873} flowOrder={9} />
     </Stage>
   );
 }
