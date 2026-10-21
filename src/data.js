@@ -5,7 +5,7 @@ export const navLinks = [
   { id: "services", label: "Services", href: "#/services" },
   { id: "pricing", label: "Pricing", href: "#pricing" },
   { id: "works", label: "Works", href: "#works" },
-  { id: "career", label: "Career", href: "#career" },
+  { id: "about", label: "About Us", href: "#/about" },
   { id: "contact", label: "Contact Us", href: "#contact" },
 ];
 
@@ -397,7 +397,7 @@ export const footer = {
     title: "Quick links",
     links: [
       { label: "Contact Us", href: "#contact" },
-      { label: "About Us", href: "#services" },
+      { label: "Career", href: "#career" },
       { label: "Pricing", href: "#pricing" },
       { label: "Privacy Policy", href: "#" },
       { label: "Terms & Condition", href: "#" },
@@ -512,4 +512,110 @@ export const expertise = {
       href: "#/services",
     },
   ],
+};
+
+/* ===================== ABOUT US PAGE ===================== */
+export const AB_H = 520; // banner height
+export const AB_PAGE_H = 5873; // was 4629. Page now includes Testimonials + Global Clients
+
+export const aboutPage = {
+  title: "ABOUT US",
+  crumbs: [{ label: "Home", href: "#home" }, { label: "About Us" }],
+  about: {
+    pill: "About Company",
+    heading: [
+      "WE’RE CREATING",
+      "DIGITAL EXPERIENCE",
+      "THAT AMPLIFY YOUR",
+      "BRAND.",
+    ],
+    text: "There are many variations of passages of available but the majority have suffered alteration in some form, by injected hum simply free text market randomised words which don’t slightly.",
+    stat: { value: 13, suffix: "+", label: "Years of experience in marketing" },
+    image: "/images/about-team.png",
+    card: {
+      title: ["HELPING BRANDS GROW THROUGH", "CREATIVE DIGITAL MARKETING."],
+      items: [
+        "Website Growths",
+        "Digital Marketing Solutions",
+        "Best Design Consultancy",
+        "Professional Team Members",
+      ],
+    },
+  },
+
+  team: {
+    pill: "Team Members",
+    heading: ["MEET PROFESSIONAL BEHIND", "STARTUPS SUCCESS."],
+    rows: [3, 5, 3, 2], // how many photos in each row (the pyramid shape)
+    // 13 members = 3 + 5 + 3 + 2. Edit names, roles and image paths here.
+    members: Array.from({ length: 13 }, (_, i) => ({
+      id: i + 1,
+      name: `Team Member ${String(i + 1).padStart(2, "0")}`,
+      role: "Role / Position",
+      image: `/images/team-${i + 1}.png`,
+    })),
+  },
+
+  why: {
+    pill: "Why Choose Us",
+    heading: "WHY CHOOSE US?",
+    image: "/images/why-choose.png",
+    points: [
+      {
+        title: "Think Differently",
+        text: "Think differently to create unique solutions that inspire innovation, growth, and lasting digital impact.",
+      },
+      {
+        title: "Quality Projects",
+        text: "We deliver quality projects with precision, creativity, and dedication to meet every client expectation.",
+      },
+      {
+        title: "Expert Team",
+        text: "Our expert team combines skills and experience to build powerful, modern, and digital solutions.",
+      },
+    ],
+    marquee: [
+      "Understanding Your Industry",
+      "Branding Design",
+      "Development",
+      "Graphic Design",
+    ], // the moving text. Edit these two
+    stats: [
+      {
+        value: 28,
+        suffix: "k",
+        icon: "clipboard",
+        label: ["Recently Projects", "Completed For Clients"],
+      },
+      {
+        value: 13,
+        suffix: "k+",
+        icon: "badge",
+        label: ["Repeat Clients Visit", "Every Month"],
+      },
+      {
+        value: 36,
+        suffix: "k",
+        icon: "users",
+        label: ["Satisfied Clients With", "5 Star Reviews"],
+      },
+      {
+        value: 78,
+        suffix: "+",
+        icon: "team",
+        label: ["Professional Team Members", "Behind The Success"],
+      },
+    ],
+  },
+
+  clients: {
+    pill: "Global Clients",
+    heading: "HELPING 100+ BRANDS SUCCESS.",
+    // 6 logo boxes. Put the images in /public/images. Until then the name is shown.
+    logos: Array.from({ length: 6 }, (_, i) => ({
+      id: i + 1,
+      name: `Client ${i + 1}`,
+      image: `/images/client-logo-${i + 1}.png`,
+    })),
+  },
 };

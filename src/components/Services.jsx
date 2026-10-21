@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import Logo from "./Logo.jsx";
 import { useContent } from "../content/ContentProvider.jsx";
 
-function Star() {
+export function Star() {
   return (
     <svg className="s2-star" viewBox="0 0 26 26" aria-hidden="true">
       <path
@@ -360,7 +360,7 @@ const DIM = 0.35; // how dark a covered card gets (0 to 1)
 const STEP = CARD_H + GAP;
 
 /* counts up from 0 the first time it scrolls into view */
-function CountUp({ to, suffix = "" }) {
+export function CountUp({ to, suffix = "" }) {
   const ref = useRef(null);
   const [n, setN] = useState(0);
 
@@ -599,6 +599,58 @@ export function Footer({ top }) {
       <span className="fo-rule" aria-hidden="true" />
       <p className="fo-copy">{footer.copyright}</p>
     </footer>
+  );
+}
+
+export function Testimonials({ top, flowOrder }) {
+  const { testimonials } = useContent();
+  // top = where the block starts on a page. Home passes nothing and keeps its CSS positions.
+  const at = (n) => ({
+    ...(top != null ? { top: top + n } : {}),
+    ...(flowOrder != null ? { order: flowOrder } : {}),
+  });
+
+  return (
+    <>
+      <p className="tm-kicker" style={at(0)}>
+        {testimonials.kicker}
+      </p>
+      <h2 className="tm-heading" style={at(52)}>
+        {testimonials.heading}
+      </h2>
+      <p className="tm-sub" style={at(126)}>
+        {testimonials.subtitle}
+      </p>
+
+      <div className="tm-marquee" style={at(210)}>
+        <div
+          className="tm-track"
+          style={{ "--tm-n": testimonials.items.length }}
+        >
+          {[0, 1, 2].map((set) =>
+            testimonials.items.map((t) => (
+              <article
+                className="tm-card"
+                key={`${set}-${t.id}`}
+                aria-hidden={set !== 1 ? "true" : undefined}
+              >
+                <img
+                  className="tm-photo"
+                  src={t.photo}
+                  alt=""
+                  onError={(e) => (e.currentTarget.style.visibility = "hidden")}
+                />
+                <p className="tm-quote">{t.text}</p>
+                <h3 className="tm-name">{t.name}</h3>
+                <p className="tm-role">{t.role}</p>
+                <h3 className="tm-name tm-name2">{t.name2}</h3>
+                <p className="tm-role tm-role2">{t.role2}</p>
+              </article>
+            )),
+          )}
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -975,38 +1027,8 @@ export default function Services() {
         </article>
       ))}
       {/* ===== SECTION 11 : testimonials ===== */}
-      <p className="tm-kicker">{testimonials.kicker}</p>
-      <h2 className="tm-heading">{testimonials.heading}</h2>
-      <p className="tm-sub">{testimonials.subtitle}</p>
-      <div className="tm-marquee">
-        <div
-          className="tm-track"
-          style={{ "--tm-n": testimonials.items.length }}
-        >
-          {/* 3 copies of the list so the loop never shows a gap. Only the middle one is read by screen readers. */}
-          {[0, 1, 2].map((set) =>
-            testimonials.items.map((t) => (
-              <article
-                className="tm-card"
-                key={`${set}-${t.id}`}
-                aria-hidden={set !== 1 ? "true" : undefined}
-              >
-                <img
-                  className="tm-photo"
-                  src={t.photo}
-                  alt=""
-                  onError={(e) => (e.currentTarget.style.visibility = "hidden")}
-                />
-                <p className="tm-quote">{t.text}</p>
-                <h3 className="tm-name">{t.name}</h3>
-                <p className="tm-role">{t.role}</p>
-                <h3 className="tm-name tm-name2">{t.name2}</h3>
-                <p className="tm-role tm-role2">{t.role2}</p>
-              </article>
-            )),
-          )}
-        </div>
-      </div>
+      <Testimonials />
+
       {/* ===== SECTION 12 : Why choose us + stats grid (same boxes as section 4) ===== */}
       <span className="ws-band" aria-hidden="true" />
       <p className="ws-kicker">{whyUs.kicker}</p>

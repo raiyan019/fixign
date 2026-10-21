@@ -4,10 +4,15 @@ import Navbar from "./components/Navbar.jsx";
 import Hero from "./components/Hero.jsx";
 import Services from "./components/Services.jsx";
 import ServicesPage from "./components/ServicesPage.jsx";
+import AboutPage from "./components/AboutPage.jsx";
 import { SECTION2_H } from "./data.js";
 
-const getRoute = () =>
-  window.location.hash.startsWith("#/services") ? "services" : "home";
+const getRoute = () => {
+  const h = window.location.hash;
+  if (h.startsWith("#/services")) return "services";
+  if (h.startsWith("#/about")) return "about";
+  return "home";
+};
 
 export default function App() {
   const [route, setRoute] = useState(getRoute);
@@ -15,10 +20,8 @@ export default function App() {
   useEffect(() => {
     const onHash = () => {
       const h = window.location.hash;
-      if (h.startsWith("#/services")) {
-        setRoute("services");
-        return;
-      }
+      if (h.startsWith("#/services")) return setRoute("services");
+      if (h.startsWith("#/about")) return setRoute("about");
       // a link to something on the page we are already on (#contact...): just scroll there
       const id = h.slice(1);
       if (id && document.getElementById(id)) return;
@@ -37,6 +40,7 @@ export default function App() {
   }, [route]);
 
   if (route === "services") return <ServicesPage />;
+  if (route === "about") return <AboutPage />;
 
   return (
     <>
