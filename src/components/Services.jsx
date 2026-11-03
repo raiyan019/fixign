@@ -660,6 +660,66 @@ export function Testimonials({ top, flowOrder }) {
   );
 }
 
+export function PricingPlan({ top, flowOrder }) {
+  const { pricing } = useContent();
+
+  return (
+    <div
+      className="pp-box"
+      id="pricing"
+      style={{
+        ...(top != null ? { top } : {}),
+        ...(flowOrder != null ? { order: flowOrder } : {}),
+      }}
+    >
+      <div className="pp-inner">
+        <h2 className="pp-title">{pricing.title}</h2>
+        <p className="pp-sub">{pricing.subtitle}</p>
+        <span className="pp-rule" aria-hidden="true" />
+
+        {pricing.plans.map((plan, i) => (
+          <article className="pp-card" style={{ "--i": i }} key={plan.id}>
+            <h3 className="pp-price">{plan.price}</h3>
+            <p className="pp-tag">{plan.tag}</p>
+            <h4 className="pp-name">{plan.name}</h4>
+            <span className="pp-cardrule" aria-hidden="true" />
+
+            <ul className="pp-features">
+              {plan.features.map((f) => (
+                <li key={f}>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3 8.5l3.2 3.2L13 4.8"
+                      stroke="#fff"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              className={`pp-btn ${i === 0 ? "pp-btn--solid" : ""}`}
+              href={plan.button.href}
+            >
+              {plan.button.label}
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Services() {
   const {
     about,
@@ -937,52 +997,8 @@ export default function Services() {
         />
       </div>
       {/* ===== SECTION 7 : pricing plan (neon border) ===== */}
-      <div className="pp-box">
-        <div className="pp-inner">
-          <h2 className="pp-title">{pricing.title}</h2>
-          <p className="pp-sub">{pricing.subtitle}</p>
-          <span className="pp-rule" aria-hidden="true" />
 
-          {pricing.plans.map((plan, i) => (
-            <article className="pp-card" style={{ "--i": i }} key={plan.id}>
-              <h3 className="pp-price">{plan.price}</h3>
-              <p className="pp-tag">{plan.tag}</p>
-              <h4 className="pp-name">{plan.name}</h4>
-              <span className="pp-cardrule" aria-hidden="true" />
-
-              <ul className="pp-features">
-                {plan.features.map((f) => (
-                  <li key={f}>
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M3 8.5l3.2 3.2L13 4.8"
-                        stroke="#fff"
-                        strokeWidth="1.6"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-
-              <a
-                className={`pp-btn ${i === 0 ? "pp-btn--solid" : ""}`}
-                href={plan.button.href}
-              >
-                {plan.button.label}
-              </a>
-            </article>
-          ))}
-        </div>
-      </div>
+      <PricingPlan />
       {/* ===== SECTION 8 : BrandBreak ===== */}
       <div className="bb-wrap">
         <BrandBreak text={brandBreak} glow />

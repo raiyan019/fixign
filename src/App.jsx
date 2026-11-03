@@ -5,12 +5,14 @@ import Hero from "./components/Hero.jsx";
 import Services from "./components/Services.jsx";
 import ServicesPage from "./components/ServicesPage.jsx";
 import AboutPage from "./components/AboutPage.jsx";
+import PricingPage from "./components/PricingPage.jsx";
 import { SECTION2_H } from "./data.js";
 
 const getRoute = () => {
   const h = window.location.hash;
   if (h.startsWith("#/services")) return "services";
   if (h.startsWith("#/about")) return "about";
+  if (h.startsWith("#/pricing")) return "pricing";
   return "home";
 };
 
@@ -22,6 +24,7 @@ export default function App() {
       const h = window.location.hash;
       if (h.startsWith("#/services")) return setRoute("services");
       if (h.startsWith("#/about")) return setRoute("about");
+      if (h.startsWith("#/pricing")) return setRoute("pricing");
       // a link to something on the page we are already on (#contact...): just scroll there
       const id = h.slice(1);
       if (id && document.getElementById(id)) return;
@@ -41,6 +44,7 @@ export default function App() {
 
   if (route === "services") return <ServicesPage />;
   if (route === "about") return <AboutPage />;
+  if (route === "pricing") return <PricingPage />;
 
   return (
     <>

@@ -4943,3 +4943,7 @@ body {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+.ab-crumbs ol {
+  list-style: none;
+}

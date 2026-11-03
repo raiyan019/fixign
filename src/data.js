@@ -3,7 +3,7 @@ export const brand = { name: "FiXiGN" };
 export const navLinks = [
   { id: "home", label: "Home", href: "#home" },
   { id: "services", label: "Services", href: "#/services" },
-  { id: "pricing", label: "Pricing", href: "#pricing" },
+  { id: "pricing", label: "Pricing", href: "#/pricing" },
   { id: "works", label: "Works", href: "#works" },
   { id: "about", label: "About Us", href: "#/about" },
   { id: "contact", label: "Contact Us", href: "#contact" },
@@ -14,8 +14,8 @@ export const navLinks = [
 export const slides = [
   {
     id: 1,
-    kicker: "FIXIGN A GLOBAL LEADER",
-    title: ["IN GRAPHIC", "DESIGN"],
+    kicker: "FIXIGN A GLOBAL LEADER IN",
+    title: ["WEB DESIGN", "& DEVELOPMENT"],
     quote:
       "creating seamless digital experiences and innovative branding solutions that elevate businesses and engage audiences worldwide.",
     description:
@@ -24,8 +24,8 @@ export const slides = [
   },
   {
     id: 2,
-    kicker: "FIXIGN BOOSTS YOUR",
-    title: ["BRAND", "IDENTITY"],
+    kicker: "FIXIGN A GLOBAL LEADER IN",
+    title: ["UX/UI", "DESIGN"],
     quote:
       "from logos to full visual systems, we shape brands people remember and trust.",
     description:
@@ -34,8 +34,8 @@ export const slides = [
   },
   {
     id: 3,
-    kicker: "FIXIGN DELIVERS",
-    title: ["UX/UI", "PRODUCTS"],
+    kicker: "FIXIGN A GLOBAL LEADER IN",
+    title: ["BRANDING", "SOLUTIONS"],
     quote:
       "research-led interfaces that feel simple to use and look great on every screen.",
     description:
@@ -401,7 +401,7 @@ export const footer = {
       { label: "Pricing", href: "#pricing" },
       { label: "Privacy Policy", href: "#" },
       { label: "Terms & Condition", href: "#" },
-      { label: "Pricing", href: "#pricing" },
+      { label: "Pricing", href: "#/pricing" },
     ],
   },
   contact: {
@@ -618,4 +618,12 @@ export const aboutPage = {
       image: `/images/client-logo-${i + 1}.png`,
     })),
   },
+};
+
+/* ===================== PRICING PAGE ===================== */
+export const PR_H = 2290; // page height: banner 520 + pricing box + footer 650
+
+export const pricingPage = {
+  title: "PRICING",
+  crumbs: [{ label: "Home", href: "#home" }, { label: "Pricing" }],
 };
