@@ -1,8 +1,9 @@
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 import { createPortal } from "react-dom";
 import Logo from "./Logo.jsx";
 import { useContent } from "../content/ContentProvider.jsx";
+import { gcExtra } from "../data.js";
 
 export function Star() {
   return (
@@ -742,6 +743,24 @@ export default function Services() {
     FLOW_BREAKPOINT,
   } = useContent();
   const TRACK_H = graphicCards.length * STEP - GAP;
+
+  const extra = gcExtra(graphicCards.length); // 1680 when there are 5 cards
+
+  // desktop: a box that moves everything below the cards down. Phone/tablet: no box needed.
+  const [isFlow, setIsFlow] = useState(
+    () => document.documentElement.clientWidth < FLOW_BREAKPOINT,
+  );
+  useEffect(() => {
+    const on = () =>
+      setIsFlow(document.documentElement.clientWidth < FLOW_BREAKPOINT);
+    window.addEventListener("resize", on);
+    return () => window.removeEventListener("resize", on);
+  }, [FLOW_BREAKPOINT]);
+  const Below = isFlow ? Fragment : "div";
+  const belowProps = isFlow
+    ? {}
+    : { className: "after-gc", style: { top: extra } };
+
   const [active, setActive] = useState(DEFAULT_ACTIVE_CARD);
   const [openFaq, setOpenFaq] = useState(FAQ_DEFAULT_OPEN);
   const [project, setProject] = useState(0);
@@ -934,179 +953,182 @@ export default function Services() {
           </article>
         ))}
       </div>
-      {/* ===== SECTION 4 : stats grid ===== */}
-      <div className="st">
-        {statCards.map((card, i) => (
-          <StatCard key={i} index={i + 1} data={card} />
-        ))}
-      </div>
-      {/* second scrolling text */}
-      <div className="s2-marquee s2-marquee--2" aria-hidden="true">
-        <div className="s2-track2">
-          {[0, 1].map((n) => (
-            <div className="s2-seq" key={n}>
-              {marquee2.map((t) => (
-                <span className="s2-item" key={t}>
-                  {t}
-                  <Star />
-                </span>
-              ))}
-            </div>
+
+      <Below {...belowProps}>
+        {/* ===== SECTION 4 : stats grid ===== */}
+        <div className="st">
+          {statCards.map((card, i) => (
+            <StatCard key={i} index={i + 1} data={card} />
           ))}
         </div>
-      </div>
-      {/* ===== SECTION 5 : featured projects ===== */}
-      <h2 className="fp-title">
-        {featured.title.map((l) => (
-          <span key={l}>{l}</span>
-        ))}
-      </h2>
-      <p className="fp-text">{featured.text}</p>
-      <a className="fp-btn" href={featured.button.href}>
-        {featured.button.label}
-        <svg
-          width="12"
-          height="12"
-          viewBox="0 0 12 12"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path d="M2 10L10 2M4 2h6v6" stroke="#111" strokeWidth="1.4" />
-        </svg>
-      </a>
-      <ul className="fp-list">
-        {featured.list.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-      <div className="fp-image">
-        <img
-          src={featured.image}
-          alt=""
-          onError={(e) => (e.currentTarget.style.display = "none")}
-        />
-      </div>
-      <p className="fp-caption">{featured.caption}</p>
-      {/* ===== SECTION 6 : laptop banner image ===== */}
-      <span className="bn-band" aria-hidden="true" />
-      <div className="bn-image">
-        <img
-          src={banner.image}
-          alt=""
-          onError={(e) => (e.currentTarget.style.display = "none")}
-        />
-      </div>
-      {/* ===== SECTION 7 : pricing plan (neon border) ===== */}
-
-      <PricingPlan />
-      {/* ===== SECTION 8 : BrandBreak ===== */}
-      <div className="bb-wrap">
-        <BrandBreak text={brandBreak} glow />
-        <BrandBreak text={brandBreak} />
-      </div>
-      {/* ===== SECTION 9 : scrolling text under BrandBreak ===== */}
-      <div className="s2-marquee s2-marquee--3" aria-hidden="true">
-        <div className="s2-track2">
-          {[0, 1].map((n) => (
-            <div className="s2-seq" key={n}>
-              {marquee2.map((t) => (
-                <span className="s2-item" key={t}>
-                  {t}
-                  <Star />
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-      {/* ===== SECTION 10 : Why choose us ===== */}
-      <p className="wc-kicker">{whyUs.kicker}</p>
-      <h2 className="wc-heading">
-        {whyUs.heading.map((l) => (
-          <span key={l}>{l}</span>
-        ))}
-      </h2>
-      <p className="wc-quote">{whyUs.quote}</p>
-      {whyUs.cards.map((card, i) => (
-        <article
-          key={card.id}
-          className={`wc ${i < 2 ? "wc--wide" : "wc--narrow"}`}
-          data-i={i}
-          tabIndex={0}
-        >
-          <img
-            className="wc-icon"
-            src={whyUs.icon}
-            alt=""
-            onError={(e) => (e.currentTarget.style.visibility = "hidden")}
-          />
-          <h3 className="wc-title">
-            {card.title.map((l) => (
-              <span key={l}>{l}</span>
-            ))}
-          </h3>
-          <p className="wc-text">{card.text}</p>
-        </article>
-      ))}
-      {/* ===== SECTION 11 : testimonials ===== */}
-      <Testimonials />
-
-      {/* ===== SECTION 12 : Why choose us + stats grid (same boxes as section 4) ===== */}
-      <span className="ws-band" aria-hidden="true" />
-      <p className="ws-kicker">{whyUs.kicker}</p>
-      <h2 className="ws-heading">
-        {whyUs.heading.map((l) => (
-          <span key={l}>{l}</span>
-        ))}
-      </h2>
-      <p className="ws-quote">{whyUs.quote}</p>
-      <div className="st st--2">
-        {statCards.map((card, i) => (
-          <StatCard key={i} index={i + 1} data={card} />
-        ))}
-      </div>
-      {/* ===== SECTION 13 : FAQ ===== */}
-      <MotionConfig reducedMotion="user">
-        <motion.div
-          className="fq"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={{
-            hidden: {},
-            show: { transition: { staggerChildren: 0.09 } },
-          }}
-        >
-          <motion.h2 className="fq-title" variants={fadeUp}>
-            {faq.heading} <span className="y">{faq.accent}</span>
-            <br />
-            {faq.heading2}
-          </motion.h2>
-
-          <motion.p className="fq-sub" variants={fadeUp}>
-            {faq.subtitle.map((l) => (
-              <span key={l}>{l}</span>
-            ))}
-          </motion.p>
-
-          <div className="fq-list">
-            {faq.items.map((item, i) => (
-              <FaqItem
-                key={i}
-                index={i}
-                q={item.q}
-                a={item.a}
-                open={openFaq === i}
-                onToggle={() => setOpenFaq(openFaq === i ? -1 : i)}
-              />
+        {/* second scrolling text */}
+        <div className="s2-marquee s2-marquee--2" aria-hidden="true">
+          <div className="s2-track2">
+            {[0, 1].map((n) => (
+              <div className="s2-seq" key={n}>
+                {marquee2.map((t) => (
+                  <span className="s2-item" key={t}>
+                    {t}
+                    <Star />
+                  </span>
+                ))}
+              </div>
             ))}
           </div>
-        </motion.div>
-      </MotionConfig>
-      {/* ===== SECTION 14 : Join Us ===== */}
-      <JoinUs />
-      {/* ===== FOOTER ===== */}
-      <Footer />
+        </div>
+        {/* ===== SECTION 5 : featured projects ===== */}
+        <h2 className="fp-title">
+          {featured.title.map((l) => (
+            <span key={l}>{l}</span>
+          ))}
+        </h2>
+        <p className="fp-text">{featured.text}</p>
+        <a className="fp-btn" href={featured.button.href}>
+          {featured.button.label}
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path d="M2 10L10 2M4 2h6v6" stroke="#111" strokeWidth="1.4" />
+          </svg>
+        </a>
+        <ul className="fp-list">
+          {featured.list.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+        <div className="fp-image">
+          <img
+            src={featured.image}
+            alt=""
+            onError={(e) => (e.currentTarget.style.display = "none")}
+          />
+        </div>
+        <p className="fp-caption">{featured.caption}</p>
+        {/* ===== SECTION 6 : laptop banner image ===== */}
+        <span className="bn-band" aria-hidden="true" />
+        <div className="bn-image">
+          <img
+            src={banner.image}
+            alt=""
+            onError={(e) => (e.currentTarget.style.display = "none")}
+          />
+        </div>
+        {/* ===== SECTION 7 : pricing plan (neon border) ===== */}
+
+        <PricingPlan />
+        {/* ===== SECTION 8 : BrandBreak ===== */}
+        <div className="bb-wrap">
+          <BrandBreak text={brandBreak} glow />
+          <BrandBreak text={brandBreak} />
+        </div>
+        {/* ===== SECTION 9 : scrolling text under BrandBreak ===== */}
+        <div className="s2-marquee s2-marquee--3" aria-hidden="true">
+          <div className="s2-track2">
+            {[0, 1].map((n) => (
+              <div className="s2-seq" key={n}>
+                {marquee2.map((t) => (
+                  <span className="s2-item" key={t}>
+                    {t}
+                    <Star />
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* ===== SECTION 10 : Why choose us ===== */}
+        <p className="wc-kicker">{whyUs.kicker}</p>
+        <h2 className="wc-heading">
+          {whyUs.heading.map((l) => (
+            <span key={l}>{l}</span>
+          ))}
+        </h2>
+        <p className="wc-quote">{whyUs.quote}</p>
+        {whyUs.cards.map((card, i) => (
+          <article
+            key={card.id}
+            className={`wc ${i < 2 ? "wc--wide" : "wc--narrow"}`}
+            data-i={i}
+            tabIndex={0}
+          >
+            <img
+              className="wc-icon"
+              src={whyUs.icon}
+              alt=""
+              onError={(e) => (e.currentTarget.style.visibility = "hidden")}
+            />
+            <h3 className="wc-title">
+              {card.title.map((l) => (
+                <span key={l}>{l}</span>
+              ))}
+            </h3>
+            <p className="wc-text">{card.text}</p>
+          </article>
+        ))}
+        {/* ===== SECTION 11 : testimonials ===== */}
+        <Testimonials />
+
+        {/* ===== SECTION 12 : Why choose us + stats grid (same boxes as section 4) ===== */}
+        <span className="ws-band" aria-hidden="true" />
+        <p className="ws-kicker">{whyUs.kicker}</p>
+        <h2 className="ws-heading">
+          {whyUs.heading.map((l) => (
+            <span key={l}>{l}</span>
+          ))}
+        </h2>
+        <p className="ws-quote">{whyUs.quote}</p>
+        <div className="st st--2">
+          {statCards.map((card, i) => (
+            <StatCard key={i} index={i + 1} data={card} />
+          ))}
+        </div>
+        {/* ===== SECTION 13 : FAQ ===== */}
+        <MotionConfig reducedMotion="user">
+          <motion.div
+            className="fq"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={{
+              hidden: {},
+              show: { transition: { staggerChildren: 0.09 } },
+            }}
+          >
+            <motion.h2 className="fq-title" variants={fadeUp}>
+              {faq.heading} <span className="y">{faq.accent}</span>
+              <br />
+              {faq.heading2}
+            </motion.h2>
+
+            <motion.p className="fq-sub" variants={fadeUp}>
+              {faq.subtitle.map((l) => (
+                <span key={l}>{l}</span>
+              ))}
+            </motion.p>
+
+            <div className="fq-list">
+              {faq.items.map((item, i) => (
+                <FaqItem
+                  key={i}
+                  index={i}
+                  q={item.q}
+                  a={item.a}
+                  open={openFaq === i}
+                  onToggle={() => setOpenFaq(openFaq === i ? -1 : i)}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </MotionConfig>
+        {/* ===== SECTION 14 : Join Us ===== */}
+        <JoinUs />
+        {/* ===== FOOTER ===== */}
+        <Footer />
+      </Below>
     </>
   );
 }

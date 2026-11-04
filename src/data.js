@@ -1,12 +1,12 @@
 export const brand = { name: "FiXiGN" };
 
 export const navLinks = [
-  { id: "home", label: "Home", href: "#home" },
-  { id: "services", label: "Services", href: "#/services" },
-  { id: "pricing", label: "Pricing", href: "#/pricing" },
-  { id: "works", label: "Works", href: "#works" },
-  { id: "about", label: "About Us", href: "#/about" },
-  { id: "contact", label: "Contact Us", href: "#contact" },
+  { id: "home", label: "Home", href: "/" },
+  { id: "services", label: "Services", href: "/services" },
+  { id: "pricing", label: "Pricing", href: "/pricing" },
+  { id: "works", label: "Works", href: "/works" },
+  { id: "about", label: "About Us", href: "/about" },
+  { id: "contact", label: "Contact Us", href: "/contact" },
 ];
 
 // title = 2 fixed lines (so the layout never shifts)
@@ -120,9 +120,47 @@ const base = {
 
 // 3 identical cards. Change title / text / image on card 2 and 3 here.
 export const graphicCards = [
-  { ...base, id: 1 },
+  {
+    ...base,
+    id: 1,
+    title: "WEB DESIGN & DEVELOPMENT",
+    text: "Your new text here.",
+    image: "/images/graphic-design.png",
+    categories: [
+      "Business & Corporate Websites",
+      "E-commerce Websites",
+      "Portfolio & Personal Websites",
+      "Landing Page Design",
+      "SaaS & Web Applications",
+      "Real Estate Websites",
+      "Healthcare & Medical Websites",
+      "Education & E-learning Platforms",
+      "Travel & Hospitality Websites",
+      "Restaurant & Food Websites",
+    ],
+  },
   { ...base, id: 2 }, // e.g. { ...base, id: 2, title: "UX/UI DESIGN", image: "/images/ux.png" }
   { ...base, id: 3 },
+  {
+    ...base,
+    id: 4,
+    title: "UX/UI DESIGN",
+    text: "Your new text here.",
+    image: "/images/graphic-design.png",
+    categories: [
+      "Wireframing",
+      "Prototyping",
+      "User research",
+      "Usability testing",
+      "Design systems",
+      "Mobile apps",
+      "Web apps",
+      "Dashboards",
+      "Landing pages",
+      "Redesigns",
+    ],
+  }, // NEW card. Change its title / text / image later (example below)
+  { ...base, id: 5 }, // NEW card
 ];
 
 /* ===================== SECTION 4 (Stats grid) ===================== */
@@ -621,9 +659,65 @@ export const aboutPage = {
 };
 
 /* ===================== PRICING PAGE ===================== */
-export const PR_H = 2290; // page height: banner 520 + pricing box + footer 650
+export const PR_H = 3410; // page height. Always = footer top (2760, set in PricingPage.jsx) + 650
 
 export const pricingPage = {
   title: "PRICING",
   crumbs: [{ label: "Home", href: "#home" }, { label: "Pricing" }],
+
+  /* ---------- text ABOVE the pricing plans ---------- */
+  intro: {
+    pill: "Transparent Pricing",
+    heading: "Simple Plans,",
+    accent: "Clear Prices",
+    text: "Pick the plan that fits your project. Every plan has a fixed price, a clear list of what is included and a team that stays with you until launch. Not sure which one to choose? Send us a message and we will help you decide.",
+    points: ["No hidden fees", "Unlimited revisions", "Pay in milestones"], // the 3 chips. Add or remove freely
+  },
+
+  /* ---------- discount chart BELOW the pricing plans ---------- */
+  discounts: {
+    pill: "Offers",
+    heading: "Save More With",
+    accent: "Our Discounts",
+    text: "We like long-term relationships. Use one of the offers below on your next project and tell us the promo code when you get in touch.",
+    columns: ["Offer", "Who it's for", "Discount", "Promo code"],
+    scaleMax: 30, // the discount that fills a bar completely. 30 means a 30% discount = full bar
+    // one object = one row of the chart. Copy a row to add another one
+    rows: [
+      {
+        id: 1,
+        offer: "First-time client",
+        who: "Your first project with Fixign",
+        percent: 10,
+        code: "WELCOME10",
+      },
+      {
+        id: 2,
+        offer: "Bundle & save",
+        who: "Book any two services together",
+        percent: 15,
+        code: "BUNDLE15",
+      },
+      {
+        id: 3,
+        offer: "Long-term partner",
+        who: "3 or more projects, or a monthly retainer",
+        percent: 20,
+        code: "PARTNER20",
+      },
+      {
+        id: 4,
+        offer: "Startups & non-profits",
+        who: "Verified early-stage and non-profit teams",
+        percent: 25,
+        code: "IMPACT25",
+      },
+    ],
+    note: "*Only one discount can be used per project. These percentages and codes are examples, update them in data.js.",
+  },
 };
+
+/* sticky cards: everything below them moves down when you add cards */
+export const GC_STEP = 840; // card height 720 + gap 120 (same numbers as CARD_H and GAP in Services.jsx)
+export const GC_BASE_COUNT = 3; // the number of cards the sections below were designed for. Don't change
+export const gcExtra = (count) => Math.max(0, count - GC_BASE_COUNT) * GC_STEP;

@@ -559,42 +559,42 @@ ul {
   display: block;
 }
 
-/* title -> x 721  y 104 */
+/* title -> x 721  y 110 */
 .gc-title {
   position: absolute;
   left: 721px;
-  top: 104px;
-  font-size: 48px;
-  line-height: 48px;
+  top: 110px;
+  font-size: 40px;
+  line-height: 44px;
   font-weight: 700;
   white-space: nowrap;
 }
 
-/* description -> x 721  y 173  w 600 */
+/* description -> x 721  y 166  w 600 */
 .gc-desc {
   position: absolute;
   left: 721px;
-  top: 173px;
+  top: 166px;
   width: 600px;
-  font-size: 15px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 23px;
 }
 
-/* category list -> x 730  y 242  (column 2 is 227px to the right) */
+/* category list -> x 730  y 238  (column 2 is 215px to the right) */
 .gc-list {
   position: absolute;
   left: 730px;
-  top: 242px;
+  top: 238px;
   display: grid;
   grid-auto-flow: column;
-  grid-template-rows: repeat(5, 32px);
-  grid-template-columns: 227px 227px;
+  grid-template-rows: repeat(5, 30px);
+  grid-template-columns: 215px 215px;
 }
 .gc-list li {
   position: relative;
   padding-left: 12px;
-  font-size: 15px;
-  line-height: 32px;
+  font-size: 14px;
+  line-height: 30px;
   color: #d0d0d0;
 }
 .gc-list li::before {
@@ -607,9 +607,9 @@ ul {
 .gc-btn {
   position: absolute;
   left: 721px;
-  top: 457px;
-  width: 158px;
-  height: 48px;
+  top: 443px;
+  width: 150px;
+  height: 46px;
   padding-left: 24px;
   gap: 16px;
   display: flex;
@@ -617,7 +617,7 @@ ul {
   background: #fdc42d;
   color: #111;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   transition: background 0.2s;
 }
@@ -2577,12 +2577,12 @@ body {
   max-height: 420px;
 }
 .stage--flow .gc-title {
-  font-size: clamp(28px, 7vw, 40px);
+  font-size: clamp(24px, 6vw, 34px);
   line-height: 1.1;
   margin: 22px 0 12px;
 }
 .stage--flow .gc-desc {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
 }
 .stage--flow .gc-list {
@@ -2593,7 +2593,8 @@ body {
   margin: 16px 0;
 }
 .stage--flow .gc-list li {
-  line-height: 30px;
+  font-size: 14px;
+  line-height: 28px;
 }
 .stage--flow .gc-btn {
   width: fit-content !important;
@@ -4947,3 +4948,271 @@ body {
 .ab-crumbs ol {
   list-style: none;
 }
+
+/* =====================================================================
+   PRICING PAGE: intro above the plans + discount chart below
+   .pi = x 300  y 600  w 1320     (text above the plans)
+   .dc = x 300  y 1962 w 1320     (discount chart)
+   ===================================================================== */
+.pi,
+.dc {
+  position: absolute;
+  left: 300px;
+  width: 1320px;
+  text-align: center;
+}
+.pi {
+  height: 300px;
+}
+.dc {
+  height: 670px;
+}
+
+/* shared pill, heading, paragraph */
+.pg-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 33px;
+  padding: 0 20px 0 28px;
+  border: 1px solid #2c2c30;
+  border-radius: 17px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #d0d0d0;
+}
+.pg-pill::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 50%;
+  background: var(--yellow);
+}
+.pg-h {
+  margin-top: 22px;
+  font-size: 48px;
+  line-height: 56px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.pg-h .y {
+  color: var(--yellow);
+}
+.pg-p {
+  width: 780px;
+  margin: 16px auto 0;
+  font-size: 18px;
+  line-height: 30px;
+  color: #bdbdbd;
+}
+.pg-p--narrow {
+  width: 700px;
+}
+
+/* the 3 chips */
+.pi-chips {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+.pi-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  padding: 0 26px 0 16px;
+  border-radius: 28px;
+  background: #131318;
+  box-shadow: inset 0 0 0 1px #26262c;
+  font-size: 15px;
+  font-weight: 500;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+}
+.pi-chip:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 0 0 1px var(--yellow),
+    0 10px 26px rgba(254, 198, 45, 0.14);
+}
+
+/* ---------- discount chart ---------- */
+.dc-chart {
+  margin-top: 44px;
+  text-align: left;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #101015;
+  box-shadow: inset 0 0 0 1px #24242a;
+}
+
+.dc-head,
+.dc-row {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr) 380px 210px;
+  column-gap: 24px;
+  align-items: center;
+  padding: 0 36px;
+}
+.dc-head {
+  height: 56px;
+  background: #16161c;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8f8f96;
+}
+.dc-head span:last-child {
+  justify-self: end;
+}
+
+.dc-row {
+  height: 84px;
+  border-top: 1px solid #1f1f25;
+  transition: background 0.25s;
+}
+.dc-row:hover {
+  background: rgba(254, 198, 45, 0.06);
+}
+
+.dc-offer {
+  font-size: 20px;
+  font-weight: 700;
+}
+.dc-who {
+  font-size: 15px;
+  line-height: 22px;
+  color: #a9a9b0;
+}
+
+.dc-disc {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.dc-pct {
+  width: 66px;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--yellow);
+  font-variant-numeric: tabular-nums;
+}
+.dc-bar {
+  flex: 1;
+  height: 10px;
+  border-radius: 5px;
+  background: #1d1d24;
+  overflow: hidden;
+}
+.dc-fill {
+  display: block;
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #fec62d, #fff3c4);
+}
+
+.dc-code {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  padding: 0 16px;
+  border: 1px dashed rgba(254, 198, 45, 0.6);
+  border-radius: 8px;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--yellow);
+  transition:
+    background 0.2s,
+    color 0.2s,
+    transform 0.2s;
+}
+.dc-code:hover {
+  background: var(--yellow);
+  color: #111;
+  border-style: solid;
+  transform: translateY(-2px);
+}
+.dc-code--copied {
+  background: #fff;
+  color: #111;
+  border-style: solid;
+  border-color: #fff;
+}
+
+.dc-note {
+  margin-top: 24px;
+  font-size: 14px;
+  line-height: 22px;
+  color: #8f8f96;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pi-chip,
+  .dc-row,
+  .dc-code {
+    transition: none;
+  }
+}
+
+/* ---------- PHONE / TABLET ---------- */
+.stage--flow > :is(.pi, .dc) {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+  margin-top: 40px;
+}
+.stage--flow :is(.pi, .dc) .pg-h {
+  font-size: clamp(28px, 7.5vw, 48px);
+  line-height: 1.15;
+}
+.stage--flow :is(.pi, .dc) .pg-p {
+  width: auto;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.stage--flow .pi-chips {
+  flex-direction: column;
+  align-items: stretch;
+}
+.stage--flow .pi-chip {
+  justify-content: flex-start;
+}
+
+.stage--flow .dc-head {
+  display: none;
+}
+.stage--flow .dc-row {
+  grid-template-columns: 1fr;
+  height: auto;
+  row-gap: 12px;
+  padding: 22px 20px;
+}
+.stage--flow .dc-code {
+  justify-self: start;
+}
+
+/* box that moves everything below the sticky cards down (set from Services.jsx) */
+.after-gc {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+.after-gc > * {
+  pointer-events: auto;
+} /* the box itself never blocks clicks on the cards */
