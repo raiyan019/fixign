@@ -9,8 +9,9 @@ import AboutPage from "./components/AboutPage.jsx";
 import PricingPage from "./components/PricingPage.jsx";
 import { SECTION2_H, gcExtra } from "./data.js";
 import { useContent } from "./content/ContentProvider.jsx";
+import ContactPage from "./components/ContactPage.jsx";
 
-const ROUTES = ["services", "about", "pricing", "products"];
+const ROUTES = ["services", "about", "pricing", "products", "contact"];
 const pathToRoute = (p) => {
   const s = p.replace(/^\/|\/$/g, "");
   return ROUTES.includes(s) ? s : "home";
@@ -99,6 +100,7 @@ export default function App() {
   if (route === "about") return <AboutPage />;
   if (route === "pricing") return <PricingPage />;
   if (route === "products") return <ProductsPage />;
+  if (route === "contact") return <ContactPage />;
 
   return (
     <>

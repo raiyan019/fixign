@@ -116,7 +116,7 @@ const base = {
     "Category 01",
     "Category 01",
   ],
-  button: { label: "Start Now", href: "#contact" },
+  button: { label: "Start Now", href: "/contact" },
 };
 
 // 3 identical cards. Change title / text / image on card 2 and 3 here.
@@ -172,7 +172,7 @@ export const statCards = [
     suffix: "+",
     label: ["Happy Clients Who Trust", "my work"],
     image: "/images/handshake.png",
-    button: { label: "Start New Project", href: "#contact" },
+    button: { label: "Start New Project", href: "/contact" },
   },
   {
     value: 40,
@@ -236,7 +236,7 @@ const planBase = {
     "Quality Assurance Testing",
     "Responsive across all devices",
   ],
-  button: { label: "Start Here", href: "#contact" },
+  button: { label: "Start Here", href: "/contact" },
 };
 
 export const pricing = {
@@ -435,7 +435,7 @@ export const footer = {
   quick: {
     title: "Quick links",
     links: [
-      { label: "Contact Us", href: "#contact" },
+      { label: "Contact Us", href: "/contact" },
       { label: "Career", href: "#career" },
       { label: "Pricing", href: "#pricing" },
       { label: "Privacy Policy", href: "#" },
@@ -467,7 +467,7 @@ export const servicesPage = {
   heading: ["Digital Product Design", "& Consulting"],
   accent: "Services", // yellow word at the end of the last line
   text: "Our Global digital product design agency helps brands to make top-quality SaaS, MVP, software, mobile apps, and websites. We focus on user-friendly designs that look great and work smoothly. Let us help your business grow with our expert digital product solutions.",
-  button: { label: "Design My Product Now", href: "#contact" },
+  button: { label: "Design My Product Now", href: "/contact" },
 };
 
 /* ===================== SERVICES PAGE: 6 CARDS ===================== */
@@ -483,7 +483,7 @@ const scBase = {
     label: "Category 01",
     href: "#/services",
   })),
-  button: { label: "Start Now", href: "#contact" },
+  button: { label: "Start Now", href: "/contact" },
 };
 
 export const serviceCards = [
@@ -793,4 +793,12 @@ export const productsPage = {
       href: "/products",
     },
   ],
+};
+
+/* ===================== CONTACT PAGE ===================== */
+export const CT_H = 3070; // page height. Always = footer top (2420, set in ContactPage.jsx) + 650
+
+export const contactPage = {
+  title: "CONTACT US",
+  crumbs: [{ label: "Home", href: "/" }, { label: "Contact Us" }],
 };

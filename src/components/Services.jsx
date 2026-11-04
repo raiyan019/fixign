@@ -184,7 +184,7 @@ const MailIcon = () => (
   </svg>
 );
 
-export function JoinUs({ top }) {
+export function JoinUs({ top, flowOrder }) {
   const { join, joinToast } = useContent();
   const { kicker, person, form } = join;
   const empty = Object.fromEntries(form.fields.map((f) => [f.name, ""]));
@@ -256,7 +256,14 @@ export function JoinUs({ top }) {
   };
 
   return (
-    <div className="jn" id="contact" style={top != null ? { top } : undefined}>
+    <div
+      className="jn"
+      id="contact"
+      style={{
+        ...(top != null ? { top } : {}),
+        ...(flowOrder != null ? { order: flowOrder } : {}),
+      }}
+    >
       <h2 className="jn-kicker">
         <span className="jn-dot" aria-hidden="true" />
         {kicker}
@@ -721,6 +728,55 @@ export function PricingPlan({ top, flowOrder }) {
   );
 }
 
+export function Faq({ top, flowOrder }) {
+  const { faq, FAQ_DEFAULT_OPEN } = useContent();
+  const [openFaq, setOpenFaq] = useState(FAQ_DEFAULT_OPEN);
+
+  return (
+    <MotionConfig reducedMotion="user">
+      <motion.div
+        className="fq"
+        style={{
+          ...(top != null ? { top } : {}),
+          ...(flowOrder != null ? { order: flowOrder } : {}),
+        }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.15 }}
+        variants={{
+          hidden: {},
+          show: { transition: { staggerChildren: 0.09 } },
+        }}
+      >
+        <motion.h2 className="fq-title" variants={fadeUp}>
+          {faq.heading} <span className="y">{faq.accent}</span>
+          <br />
+          {faq.heading2}
+        </motion.h2>
+
+        <motion.p className="fq-sub" variants={fadeUp}>
+          {faq.subtitle.map((l) => (
+            <span key={l}>{l}</span>
+          ))}
+        </motion.p>
+
+        <div className="fq-list">
+          {faq.items.map((item, i) => (
+            <FaqItem
+              key={i}
+              index={i}
+              q={item.q}
+              a={item.a}
+              open={openFaq === i}
+              onToggle={() => setOpenFaq(openFaq === i ? -1 : i)}
+            />
+          ))}
+        </div>
+      </motion.div>
+    </MotionConfig>
+  );
+}
+
 export default function Services() {
   const {
     about,
@@ -762,7 +818,7 @@ export default function Services() {
     : { className: "after-gc", style: { top: extra } };
 
   const [active, setActive] = useState(DEFAULT_ACTIVE_CARD);
-  const [openFaq, setOpenFaq] = useState(FAQ_DEFAULT_OPEN);
+
   const [project, setProject] = useState(0);
   const current = services[active];
 
@@ -1087,43 +1143,7 @@ export default function Services() {
           ))}
         </div>
         {/* ===== SECTION 13 : FAQ ===== */}
-        <MotionConfig reducedMotion="user">
-          <motion.div
-            className="fq"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={{
-              hidden: {},
-              show: { transition: { staggerChildren: 0.09 } },
-            }}
-          >
-            <motion.h2 className="fq-title" variants={fadeUp}>
-              {faq.heading} <span className="y">{faq.accent}</span>
-              <br />
-              {faq.heading2}
-            </motion.h2>
-
-            <motion.p className="fq-sub" variants={fadeUp}>
-              {faq.subtitle.map((l) => (
-                <span key={l}>{l}</span>
-              ))}
-            </motion.p>
-
-            <div className="fq-list">
-              {faq.items.map((item, i) => (
-                <FaqItem
-                  key={i}
-                  index={i}
-                  q={item.q}
-                  a={item.a}
-                  open={openFaq === i}
-                  onToggle={() => setOpenFaq(openFaq === i ? -1 : i)}
-                />
-              ))}
-            </div>
-          </motion.div>
-        </MotionConfig>
+        <Faq />
         {/* ===== SECTION 14 : Join Us ===== */}
         <JoinUs />
         {/* ===== FOOTER ===== */}
