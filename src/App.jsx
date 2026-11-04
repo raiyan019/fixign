@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Stage from "./components/Stage.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Hero from "./components/Hero.jsx";
+import ProductsPage from "./components/ProductsPage.jsx";
 import Services from "./components/Services.jsx";
 import ServicesPage from "./components/ServicesPage.jsx";
 import AboutPage from "./components/AboutPage.jsx";
@@ -9,7 +10,7 @@ import PricingPage from "./components/PricingPage.jsx";
 import { SECTION2_H, gcExtra } from "./data.js";
 import { useContent } from "./content/ContentProvider.jsx";
 
-const ROUTES = ["services", "about", "pricing"];
+const ROUTES = ["services", "about", "pricing", "products"];
 const pathToRoute = (p) => {
   const s = p.replace(/^\/|\/$/g, "");
   return ROUTES.includes(s) ? s : "home";
@@ -97,6 +98,7 @@ export default function App() {
   if (route === "services") return <ServicesPage />;
   if (route === "about") return <AboutPage />;
   if (route === "pricing") return <PricingPage />;
+  if (route === "products") return <ProductsPage />;
 
   return (
     <>

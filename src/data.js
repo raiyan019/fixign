@@ -2,6 +2,7 @@ export const brand = { name: "FiXiGN" };
 
 export const navLinks = [
   { id: "home", label: "Home", href: "/" },
+  { id: "products", label: "Products", href: "/products" },
   { id: "services", label: "Services", href: "/services" },
   { id: "pricing", label: "Pricing", href: "/pricing" },
   { id: "works", label: "Works", href: "/works" },
@@ -721,3 +722,75 @@ export const pricingPage = {
 export const GC_STEP = 840; // card height 720 + gap 120 (same numbers as CARD_H and GAP in Services.jsx)
 export const GC_BASE_COUNT = 3; // the number of cards the sections below were designed for. Don't change
 export const gcExtra = (count) => Math.max(0, count - GC_BASE_COUNT) * GC_STEP;
+
+/* ===================== PRODUCTS PAGE ===================== */
+export const PD_H = 2774; // page height. Always = footer top (2124, set in ProductsPage.jsx) + 650
+
+export const productsPage = {
+  title: "PRODUCTS",
+  crumbs: [{ label: "Home", href: "/" }, { label: "Products" }],
+  intro: {
+    pill: "Our Products",
+    heading: "Ready-Made Designs,",
+    accent: "Built To Launch",
+    text: "Browse our digital products: UI kits, templates and design assets made by the Fixign team. Pick one, download it and start your project faster.",
+  },
+  cta: "View product", // button text on every card
+  // one object = one card. Copy a card to add another one (see the note below for the page height)
+  items: [
+    {
+      id: 1,
+      tag: "UI Kit",
+      title: "Fixign UI Kit",
+      text: "A complete set of buttons, forms and layouts for modern web apps.",
+      price: "$49",
+      image: "/images/product-1.png",
+      href: "/products",
+    },
+    {
+      id: 2,
+      tag: "Template",
+      title: "Dashboard Template",
+      text: "A clean admin dashboard with charts, tables and dark mode.",
+      price: "$59",
+      image: "/images/product-2.png",
+      href: "/products",
+    },
+    {
+      id: 3,
+      tag: "Mobile",
+      title: "Mobile App Kit",
+      text: "Over 80 mobile screens for iOS and Android, ready to customize.",
+      price: "$39",
+      image: "/images/product-3.png",
+      href: "/products",
+    },
+    {
+      id: 4,
+      tag: "Template",
+      title: "Landing Page Pack",
+      text: "Ten landing pages for agencies, SaaS and startups.",
+      price: "$29",
+      image: "/images/product-4.png",
+      href: "/products",
+    },
+    {
+      id: 5,
+      tag: "Assets",
+      title: "Icon Set",
+      text: "More than 500 sharp icons in 3 styles, SVG and Figma.",
+      price: "$19",
+      image: "/images/product-5.png",
+      href: "/products",
+    },
+    {
+      id: 6,
+      tag: "Branding",
+      title: "Brand Starter Kit",
+      text: "Logo files, color system and guidelines to launch a brand quickly.",
+      price: "$69",
+      image: "/images/product-6.png",
+      href: "/products",
+    },
+  ],
+};

@@ -11,7 +11,7 @@ if (oldHash.startsWith("#/")) {
 }
 // unknown paths go to the home page
 const seg = window.location.pathname.replace(/^\/|\/$/g, "");
-if (!["", "services", "about", "pricing"].includes(seg)) {
+if (!["", "services", "about", "pricing", "products"].includes(seg)) {
   window.history.replaceState(null, "", "/");
 }
 
