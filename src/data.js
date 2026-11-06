@@ -125,7 +125,7 @@ export const graphicCards = [
     ...base,
     id: 1,
     title: "WEB DESIGN & DEVELOPMENT",
-    text: "Your new text here.",
+    text: " Creating visually appealing and functional websites that deliver exceptional user experiences.",
     image: "/images/graphic-design.png",
     categories: [
       "Business & Corporate Websites",
@@ -140,13 +140,11 @@ export const graphicCards = [
       "Restaurant & Food Websites",
     ],
   },
-  { ...base, id: 2 }, // e.g. { ...base, id: 2, title: "UX/UI DESIGN", image: "/images/ux.png" }
-  { ...base, id: 3 },
   {
     ...base,
-    id: 4,
+    id: 2,
     title: "UX/UI DESIGN",
-    text: "Your new text here.",
+    text: "Designing intuitive and engaging user experiences that enhance usability and satisfaction.",
     image: "/images/graphic-design.png",
     categories: [
       "Wireframing",
@@ -160,8 +158,64 @@ export const graphicCards = [
       "Landing pages",
       "Redesigns",
     ],
+  }, // e.g. { ...base, id: 2, title: "UX/UI DESIGN", image: "/images/ux.png" }
+  {
+    ...base,
+    id: 3,
+    title: "BRANDING DESIGN",
+    text: "Building memorable identities that make brands stand out.",
+    image: "/images/graphic-design.png",
+    categories: [
+      "Logo design",
+      "Brand identity",
+      "Visual guidelines",
+      "Marketing materials",
+      "packaging design",
+      "Brand Identity Design",
+      "Typography & Color Systems",
+      "Social Media Branding",
+      "Rebranding & Brand Refresh",
+      "Business Card & Stationery Design",
+    ],
+  },
+  {
+    ...base,
+    id: 4,
+    title: "Graphic design",
+    text: "Creating impactful visuals that communicate ideas and capture attention.",
+    image: "/images/graphic-design.png",
+    categories: [
+      "Social Media Graphics",
+      "Marketing & Advertising Design",
+      "Print & Editorial Design",
+      "Poster & Flyer Design",
+      "Brochure & Catalogue Design",
+      "Banner & Billboard Design",
+      "Infographic Design",
+      "Presentation Design",
+      "Packaging Graphics",
+      "Illustration & Digital Artwork",
+    ],
   }, // NEW card. Change its title / text / image later (example below)
-  { ...base, id: 5 }, // NEW card
+  {
+    ...base,
+    id: 5,
+    title: "Digital Marketing",
+    text: "Driving growth through strategic campaigns that connect brands with the right audience.",
+    image: "/images/graphic-design.png",
+    categories: [
+      "Search Engine Optimization (SEO)",
+      "Pay-Per-Click (PPC) Advertising",
+      "Content Marketing",
+      "Email Marketing",
+      "Social Media Marketing",
+      "Influencer Partnerships",
+      "Marketing Automation",
+      "Analytics & Reporting",
+      "Brand Management",
+      "Customer Relationship Management (CRM)",
+    ],
+  }, // NEW card
 ];
 
 /* ===================== SECTION 4 (Stats grid) ===================== */
