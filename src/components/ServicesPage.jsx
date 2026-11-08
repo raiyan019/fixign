@@ -1,3 +1,4 @@
+import { Fragment, useEffect, useState } from "react";
 import Stage from "./Stage.jsx";
 import Navbar from "./Navbar.jsx";
 import { useContent } from "../content/ContentProvider.jsx";
@@ -10,10 +11,31 @@ export default function ServicesPage() {
     serviceCards,
     SC_ALTERNATE,
     expertise,
+    SC_BASE_COUNT,
+    SC_PITCH,
+    FLOW_BREAKPOINT,
   } = useContent();
 
+  // how much everything below the cards moves up (a deleted card) or down (an added card)
+  const shift = (SC_BASE_COUNT - serviceCards.length) * SC_PITCH;
+
+  // desktop: a box that moves the sections below the cards. Phone/tablet: not needed
+  const [isFlow, setIsFlow] = useState(
+    () => document.documentElement.clientWidth < FLOW_BREAKPOINT,
+  );
+  useEffect(() => {
+    const on = () =>
+      setIsFlow(document.documentElement.clientWidth < FLOW_BREAKPOINT);
+    window.addEventListener("resize", on);
+    return () => window.removeEventListener("resize", on);
+  }, [FLOW_BREAKPOINT]);
+  const Move = isFlow ? Fragment : "div";
+  const moveProps = isFlow
+    ? {}
+    : { className: "sv-shift", style: { top: -shift } };
+
   return (
-    <Stage height={SV_H}>
+    <Stage height={SV_H - shift}>
       <Navbar current="services" />
 
       <section className="svh">
@@ -75,11 +97,16 @@ export default function ServicesPage() {
               <p className="sc-desc">{card.text}</p>
 
               <ul className="sc-cats">
-                {card.categories.map((c, k) => (
-                  <li key={k}>
-                    <a href={c.href}>{c.label}</a>
-                  </li>
-                ))}
+                {card.categories.map((c, k) => {
+                  // plain text works, and so does { label, href } when you want a real link
+                  const cat =
+                    typeof c === "string" ? { label: c, href: "#" } : c;
+                  return (
+                    <li key={k}>
+                      <a href={cat.href}>{cat.label}</a>
+                    </li>
+                  );
+                })}
               </ul>
 
               <a className="sc-btn" href={card.button.href}>
@@ -105,53 +132,55 @@ export default function ServicesPage() {
         ))}
       </section>
 
-      {/* ===== Our Expertise ===== */}
-      <section className="ex" aria-labelledby="ex-label">
-        <h2 className="ex-label" id="ex-label">
-          <span className="ex-dot" aria-hidden="true" />
-          {expertise.label}
-        </h2>
-        <p className="ex-text">{expertise.text}</p>
+      <Move {...moveProps}>
+        {/* ===== Our Expertise ===== */}
+        <section className="ex" aria-labelledby="ex-label">
+          <h2 className="ex-label" id="ex-label">
+            <span className="ex-dot" aria-hidden="true" />
+            {expertise.label}
+          </h2>
+          <p className="ex-text">{expertise.text}</p>
 
-        <ul className="ex-grid">
-          {expertise.items.map((it) => (
-            <li key={it.id} style={{ "--accent": it.accent }}>
-              <a className="ex-card" href={it.href}>
-                <h3 className="ex-title">{it.title}</h3>
-                <img
-                  className="ex-img"
-                  src={it.image}
-                  alt=""
-                  onError={(e) => (e.currentTarget.style.display = "none")}
-                />
-                <span className="ex-shade" aria-hidden="true" />
-                <span className="ex-link">
-                  {expertise.cta}
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M3 11L11 3M5 3h6v6"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
+          <ul className="ex-grid">
+            {expertise.items.map((it) => (
+              <li key={it.id} style={{ "--accent": it.accent }}>
+                <a className="ex-card" href={it.href}>
+                  <h3 className="ex-title">{it.title}</h3>
+                  <img
+                    className="ex-img"
+                    src={it.image}
+                    alt=""
+                    onError={(e) => (e.currentTarget.style.display = "none")}
+                  />
+                  <span className="ex-shade" aria-hidden="true" />
+                  <span className="ex-link">
+                    {expertise.cta}
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M3 11L11 3M5 3h6v6"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
 
-      {/* ===== same ending as the home page: form, then footer ===== */}
-      <JoinUs top={6060} />
-      <Footer top={6980} />
+        {/* ===== same ending as the home page: form, then footer ===== */}
+        <JoinUs top={6060} />
+        <Footer top={6980} />
+      </Move>
     </Stage>
   );
 }

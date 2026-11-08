@@ -5648,3 +5648,12 @@ body {
   line-height: 1.3;
   margin-top: 32px;
 }
+
+/* moves everything below the service cards up or down (set from ServicesPage.jsx) */
+.sv-shift {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 0;
+}

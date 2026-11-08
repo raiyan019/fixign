@@ -100,7 +100,7 @@ export const marqueeText = "Understanding Your Industry";
 
 /* ===================== SECTION 3 (Graphic Design cards) ===================== */
 const base = {
-  image: "/images/graphic-design.png",
+  image: "",
   title: "GRAPHIC DESIGN",
   text: "Design services are built around understanding users, business goals, and the latest design standards to deliver solutions that are intuitive, engaging, and impactful.",
   // first 5 go in column 1, last 5 in column 2
@@ -126,7 +126,7 @@ export const graphicCards = [
     id: 1,
     title: "WEB DESIGN & DEVELOPMENT",
     text: " Creating visually appealing and functional websites that deliver exceptional user experiences.",
-    image: "/images/graphic-design.png",
+    image: "/images/web-design-development.png",
     categories: [
       "Business & Corporate Websites",
       "E-commerce Websites",
@@ -145,7 +145,7 @@ export const graphicCards = [
     id: 2,
     title: "UX/UI DESIGN",
     text: "Designing intuitive and engaging user experiences that enhance usability and satisfaction.",
-    image: "/images/graphic-design.png",
+    image: "/images/ux-ui-design.png",
     categories: [
       "Wireframing",
       "Prototyping",
@@ -164,7 +164,7 @@ export const graphicCards = [
     id: 3,
     title: "BRANDING DESIGN",
     text: "Building memorable identities that make brands stand out.",
-    image: "/images/graphic-design.png",
+    image: "/images/branding-design.png",
     categories: [
       "Logo design",
       "Brand identity",
@@ -183,7 +183,7 @@ export const graphicCards = [
     id: 4,
     title: "Graphic design",
     text: "Creating impactful visuals that communicate ideas and capture attention.",
-    image: "/images/graphic-design.png",
+    image: "/images/graphic-design1.png",
     categories: [
       "Social Media Graphics",
       "Marketing & Advertising Design",
@@ -202,7 +202,7 @@ export const graphicCards = [
     id: 5,
     title: "Digital Marketing",
     text: "Driving growth through strategic campaigns that connect brands with the right audience.",
-    image: "/images/graphic-design.png",
+    image: "/images/digital-marketing.png",
     categories: [
       "Search Engine Optimization (SEO)",
       "Pay-Per-Click (PPC) Advertising",
@@ -533,20 +533,117 @@ const scBase = {
   text: "Design services are built around understanding users, business goals, and the latest design standards to deliver solutions that are intuitive, engaging, and impactful.",
   // 10 categories: first 5 in column 1, last 5 in column 2.
   // href is the link. "#/services" keeps you on this page until you add the real links.
-  categories: Array.from({ length: 10 }, () => ({
-    label: "Category 01",
-    href: "#/services",
-  })),
+  categories: [
+    "Category 01",
+    "Category 01",
+    "Category 01",
+    "Category 01",
+    "Category 01",
+    "Category 01",
+    "Category 01",
+    "Category 01",
+    "Category 01",
+    "Category 01",
+  ],
   button: { label: "Start Now", href: "/contact" },
 };
 
 export const serviceCards = [
-  { ...scBase, id: 1 },
-  { ...scBase, id: 2, title: "UX/UI DESIGN" },
-  { ...scBase, id: 3, title: "WEB DESIGN" },
-  { ...scBase, id: 4, title: "MOBILE APP DESIGN" },
-  { ...scBase, id: 5, title: "WEB APP DEVELOPMENT" },
-  { ...scBase, id: 6, title: "BRANDING DESIGN" },
+  {
+    ...scBase,
+    id: 1,
+    title: "WEB DESIGN & DEVELOPMENT",
+    text: " Creating visually appealing and functional websites that deliver exceptional user experiences.",
+    image: "/images/web-design-development.png",
+    categories: [
+      "Business & Corporate Websites",
+      "E-commerce Websites",
+      "Portfolio & Personal Websites",
+      "Landing Page Design",
+      "SaaS & Web Applications",
+      "Real Estate Websites",
+      "Healthcare & Medical Websites",
+      "Education & E-learning Platforms",
+      "Travel & Hospitality Websites",
+      "Restaurant & Food Websites",
+    ],
+  },
+  {
+    ...scBase,
+    id: 2,
+    title: "UX/UI DESIGN",
+    text: "Designing intuitive and engaging user experiences that enhance usability and satisfaction.",
+    image: "/images/ux-ui-design.png",
+    categories: [
+      "Wireframing",
+      "Prototyping",
+      "User research",
+      "Usability testing",
+      "Design systems",
+      "Mobile apps",
+      "Web apps",
+      "Dashboards",
+      "Landing pages",
+      "Redesigns",
+    ],
+  },
+  {
+    ...scBase,
+    id: 3,
+    title: "BRANDING DESIGN",
+    text: "Building memorable identities that make brands stand out.",
+    image: "/images/branding-design.png",
+    categories: [
+      "Logo design",
+      "Brand identity",
+      "Visual guidelines",
+      "Marketing materials",
+      "packaging design",
+      "Brand Identity Design",
+      "Typography & Color Systems",
+      "Social Media Branding",
+      "Rebranding & Brand Refresh",
+      "Business Card & Stationery Design",
+    ],
+  },
+  {
+    ...scBase,
+    id: 4,
+    title: "Graphic design",
+    text: "Creating impactful visuals that communicate ideas and capture attention.",
+    image: "/images/graphic-design1.png",
+    categories: [
+      "Social Media Graphics",
+      "Marketing & Advertising Design",
+      "Print & Editorial Design",
+      "Poster & Flyer Design",
+      "Brochure & Catalogue Design",
+      "Banner & Billboard Design",
+      "Infographic Design",
+      "Presentation Design",
+      "Packaging Graphics",
+      "Illustration & Digital Artwork",
+    ],
+  },
+  {
+    ...scBase,
+    id: 5,
+    title: "Digital Marketing",
+    text: "Driving growth through strategic campaigns that connect brands with the right audience.",
+    image: "/images/digital-marketing.png",
+    categories: [
+      "Search Engine Optimization (SEO)",
+      "Pay-Per-Click (PPC) Advertising",
+      "Content Marketing",
+      "Email Marketing",
+      "Social Media Marketing",
+      "Influencer Partnerships",
+      "Marketing Automation",
+      "Analytics & Reporting",
+      "Brand Management",
+      "Customer Relationship Management (CRM)",
+    ],
+  },
 ];
 // To give one card its own categories, for example:
 // { ...scBase, id: 2, title: "UX/UI DESIGN", categories: [
@@ -985,3 +1082,7 @@ export const articlePages = {
     body: articleBody,
   },
 };
+
+/* Services page: the sections below the cards were placed for this many cards */
+export const SC_BASE_COUNT = 6;
+export const SC_PITCH = 720; // height of one card + its gap
