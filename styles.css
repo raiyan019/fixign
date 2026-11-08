@@ -5702,3 +5702,56 @@ body {
   background: #fff;
   transform: scale(0.98);
 }
+
+/* =====================================================================
+   PHONE / TABLET: every sticky card fits on one screen
+   ===================================================================== */
+.stage--flow .gc-track .gc {
+  padding: 16px 16px 18px;
+  margin-bottom: clamp(
+    60px,
+    14vh,
+    140px
+  ); /* resting space: the card stays fully visible before the next one arrives */
+  margin-bottom: clamp(
+    60px,
+    14svh,
+    140px
+  ); /* same, for newer iPhones (accounts for the Safari toolbar) */
+}
+.stage--flow .gc-track .gc:last-child {
+  margin-bottom: 0;
+}
+
+/* image height follows the screen height, so short phones get a smaller image */
+.stage--flow .gc .gc-image {
+  aspect-ratio: auto;
+  max-height: none;
+  height: clamp(120px, 24vh, 230px) !important;
+  height: clamp(120px, 24svh, 230px) !important;
+}
+
+/* tighter text, so long category names take less room */
+.stage--flow .gc .gc-title {
+  font-size: clamp(22px, 6vw, 30px);
+  line-height: 1.15;
+  margin: 14px 0 6px;
+}
+.stage--flow .gc .gc-desc {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.stage--flow .gc .gc-btn {
+  height: 52px !important;
+  margin: 12px 0 4px !important;
+}
+.stage--flow .gc .gc-list {
+  margin-top: 6px;
+  row-gap: 4px;
+}
+.stage--flow .gc .gc-list li {
+  font-size: 13px;
+  line-height: 1.35;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
