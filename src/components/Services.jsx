@@ -777,6 +777,60 @@ export function Faq({ top, flowOrder }) {
   );
 }
 
+export function ArticleCard({ it, cta, href }) {
+  return (
+    <article className="pd-card">
+      <div className="pd-img">
+        <img
+          src={it.image}
+          alt=""
+          onError={(e) => (e.currentTarget.style.display = "none")}
+        />
+      </div>
+      <div className="pd-body">
+        <span className="pd-tag">{it.tag}</span>
+        <h3 className="pd-title">{it.title}</h3>
+        <p className="pd-text">{it.text}</p>
+        <div className="pd-foot">
+          <span className="bl-meta">{it.meta}</span>
+          <a className="pd-link" href={href}>
+            {cta}
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M2 10L10 2M4 2h6v6"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function ArticleCards() {
+  const { articles, articleHref } = useContent();
+  return (
+    <div className="bl">
+      {articles.items.map((it) => (
+        <ArticleCard
+          key={it.id}
+          it={it}
+          cta={articles.cta}
+          href={articleHref(it.slug)}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function Services() {
   const {
     about,
@@ -790,6 +844,7 @@ export default function Services() {
     pricing,
     brandBreak,
     whyUs,
+    articles,
     testimonials,
     faq,
     FAQ_DEFAULT_OPEN,
@@ -1130,18 +1185,14 @@ export default function Services() {
 
         {/* ===== SECTION 12 : Why choose us + stats grid (same boxes as section 4) ===== */}
         <span className="ws-band" aria-hidden="true" />
-        <p className="ws-kicker">{whyUs.kicker}</p>
+        <p className="ws-kicker">{articles.kicker}</p>
         <h2 className="ws-heading">
-          {whyUs.heading.map((l) => (
+          {articles.heading.map((l) => (
             <span key={l}>{l}</span>
           ))}
         </h2>
-        <p className="ws-quote">{whyUs.quote}</p>
-        <div className="st st--2">
-          {statCards.map((card, i) => (
-            <StatCard key={i} index={i + 1} data={card} />
-          ))}
-        </div>
+        <p className="ws-quote">{articles.quote}</p>
+        <ArticleCards />
         {/* ===== SECTION 13 : FAQ ===== */}
         <Faq />
         {/* ===== SECTION 14 : Join Us ===== */}

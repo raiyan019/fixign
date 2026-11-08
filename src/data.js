@@ -856,3 +856,132 @@ export const contactPage = {
   title: "CONTACT US",
   crumbs: [{ label: "Home", href: "/" }, { label: "Contact Us" }],
 };
+
+/* ===================== ARTICLES (the 4 cards in "Why Choose US") ===================== */
+// Add your blog subdomain here later, with no slash at the end. For example:
+// export const BLOG_URL = "https://blog.fixign.com";
+export const BLOG_URL = import.meta.env.DEV ? "" : "https://blog.fixign.com";
+export const articleHref = (slug) =>
+  BLOG_URL ? `${BLOG_URL}/${slug}` : `/blog/${slug}`;
+export const blogIndexHref = BLOG_URL ? `${BLOG_URL}/` : "/blog";
+
+export const articles = {
+  kicker: "Our Articles", // small italic line on top
+  author: "Honour to Fixign", // shown on every article (a single article can override it)
+  authorImage: "/images/author.png", // round photo next to the name. If missing, a yellow circle with the first letter shows
+  heading: ["Insights, Stories and Tips", "From the Fixign Team"], // big heading, one item per line
+  quote:
+    "“Read how we think, how we work and what we learn from every project.”", // grey text on the right
+
+  cta: "Read article", // button text on every card
+  // Each card opens: BLOG_URL + "/" + slug   (e.g. https://blog.fixign.com/happy-clients)
+  items: [
+    {
+      id: 1,
+      tag: "Case Study",
+      title: "Why 100+ Clients Trust Our Work",
+      text: "How clear communication and steady delivery turned first projects into long partnerships.",
+      meta: "5 min read",
+      slug: "happy-clients",
+      image: "/images/handshake.png",
+    },
+    {
+      id: 2,
+      tag: "Client Stories",
+      title: "40+ Clients Come Back For New Projects",
+      text: "What makes teams return to Fixign for a second, third and fourth project.",
+      meta: "4 min read",
+      slug: "returning-clients",
+      image: "/images/website-mockups.png",
+    },
+    {
+      id: 3,
+      tag: "Insights",
+      title: "4+ Years Of Designing Digital Products",
+      text: "The lessons we learned designing apps, websites and brands for growing businesses.",
+      meta: "6 min read",
+      slug: "years-of-experience",
+      image: "/images/vr-person.png",
+    },
+    {
+      id: 4,
+      tag: "Our Work",
+      title: "90+ Projects Completed Successfully",
+      text: "A look at the process that helps us deliver on time, on budget and on brief.",
+      meta: "7 min read",
+      slug: "completed-projects",
+      image: "/images/robot-ring.png",
+    },
+  ],
+};
+
+/* ===================== BLOG: ARTICLE PAGES ===================== */
+export const blogPage = {
+  title: "BLOG",
+  crumbs: [{ label: "Home", href: "/" }, { label: "Blog" }],
+};
+
+// Placeholder text. Replace it with your real article.
+// Block types: { type: "p", text }  { type: "h2", text }  { type: "ul", items: [...] }  { type: "quote", text }
+const articleBody = [
+  {
+    type: "p",
+    text: "In a digital-first world, your website is often the first point of contact between your business and a potential client. People decide within seconds if they trust you, and good design is a big part of that decision.",
+  },
+  {
+    type: "p",
+    text: "In this article, we look at how clear design, honest communication and steady delivery help businesses grow, and what we have learned from working with clients all over the world.",
+  },
+  { type: "h2", text: "Why design matters" },
+  {
+    type: "p",
+    text: "Design is not decoration. It guides visitors, explains your offer in a few seconds and makes every next step feel easy. When a website is simple to understand, people stay longer and come back.",
+  },
+  {
+    type: "ul",
+    items: [
+      "Clear structure that is easy to scan",
+      "Fast pages that work on every device",
+      "A consistent look that builds trust",
+      "Calls to action that guide the visitor",
+    ],
+  },
+  {
+    type: "quote",
+    text: "Good design makes a business look reliable before anyone reads a single word.",
+  },
+  { type: "h2", text: "What we do differently" },
+  {
+    type: "p",
+    text: "We start with your goals, not with colors. We research your audience, plan the experience, design it with you and stay with the project until it is live and working.",
+  },
+  {
+    type: "p",
+    text: "If you would like to talk about your own project, get in touch with the Fixign team. We are happy to help.",
+  },
+];
+
+// one entry per article. The key is the card's slug.  title / author are optional (they default to the card title and articles.author)
+// cover = the big image on top (860 x 368). Put it in /public/images
+export const articlePages = {
+  "happy-clients": {
+    date: "Nov 07, 2026",
+    cover: "/images/article-1.png",
+    body: articleBody,
+  },
+  "returning-clients": {
+    date: "Nov 03, 2026",
+    cover: "/images/article-2.png",
+    body: articleBody,
+  },
+  "years-of-experience": {
+    date: "Oct 28, 2026",
+    cover: "/images/article-3.png",
+    body: articleBody,
+  },
+  "completed-projects": {
+    date: "Oct 21, 2026",
+    cover: "/images/article-4.png",
+    body: articleBody,
+  },
+};

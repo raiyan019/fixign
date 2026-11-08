@@ -2,19 +2,31 @@ import { useEffect, useRef, useState } from "react";
 import Stage from "./components/Stage.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Hero from "./components/Hero.jsx";
-import ProductsPage from "./components/ProductsPage.jsx";
 import Services from "./components/Services.jsx";
 import ServicesPage from "./components/ServicesPage.jsx";
 import AboutPage from "./components/AboutPage.jsx";
 import PricingPage from "./components/PricingPage.jsx";
+import ProductsPage from "./components/ProductsPage.jsx";
+import ContactPage from "./components/ContactPage.jsx";
+import ArticlePage from "./components/ArticlePage.jsx";
+import BlogPage from "./components/BlogPage.jsx";
 import { SECTION2_H, gcExtra } from "./data.js";
 import { useContent } from "./content/ContentProvider.jsx";
-import ContactPage from "./components/ContactPage.jsx";
+
+// the blog lives on a subdomain: blog.fixign.com
+const IS_BLOG = window.location.hostname.startsWith("blog.");
+const MAIN_URL = IS_BLOG
+  ? window.location.origin.replace("//blog.", "//")
+  : window.location.origin;
 
 const ROUTES = ["services", "about", "pricing", "products", "contact"];
+
 const pathToRoute = (p) => {
   const s = p.replace(/^\/|\/$/g, "");
-  return ROUTES.includes(s) ? s : "home";
+  if (IS_BLOG) return s ? { name: "article", slug: s } : { name: "blog" };
+  if (s === "blog") return { name: "blog" };
+  if (s.startsWith("blog/")) return { name: "article", slug: s.slice(5) };
+  return { name: ROUTES.includes(s) ? s : "home" };
 };
 
 export default function App() {
@@ -42,14 +54,13 @@ export default function App() {
       const id = url.hash.slice(1);
 
       if (href.startsWith("#")) {
-        if (!id) return true; // a bare # does nothing
+        if (!id) return true;
         const el = document.getElementById(id);
         if (el) {
-          // a section on this page
           el.scrollIntoView({ behavior: "smooth" });
           return true;
         }
-        navigate("/", id); // a section on the home page
+        navigate("/", id);
         return true;
       }
       navigate(url.pathname, id);
@@ -69,7 +80,20 @@ export default function App() {
       const a = e.target.closest("a");
       if (!a || a.target === "_blank" || a.hasAttribute("download")) return;
       const href = a.getAttribute("href");
-      if (!href || /^(mailto:|tel:|https?:)/.test(href)) return;
+      if (!href || /^(mailto:|tel:)/.test(href)) return;
+
+      // on the blog subdomain, the menu, footer and breadcrumb links lead to the main site
+      if (
+        IS_BLOG &&
+        a.closest(".hdr, .fo, .ab-crumbs") &&
+        !/^https?:/.test(href)
+      ) {
+        e.preventDefault();
+        window.location.href =
+          MAIN_URL + (href.startsWith("#") ? "/" + href : href);
+        return;
+      }
+
       if (go(href)) e.preventDefault();
     };
 
@@ -96,11 +120,14 @@ export default function App() {
     else window.scrollTo(0, 0);
   }, [route, tick]);
 
-  if (route === "services") return <ServicesPage />;
-  if (route === "about") return <AboutPage />;
-  if (route === "pricing") return <PricingPage />;
-  if (route === "products") return <ProductsPage />;
-  if (route === "contact") return <ContactPage />;
+  const { name, slug } = route;
+  if (name === "services") return <ServicesPage />;
+  if (name === "about") return <AboutPage />;
+  if (name === "pricing") return <PricingPage />;
+  if (name === "products") return <ProductsPage />;
+  if (name === "contact") return <ContactPage />;
+  if (name === "article") return <ArticlePage key={slug} slug={slug} />;
+  if (name === "blog") return <BlogPage />;
 
   return (
     <>
