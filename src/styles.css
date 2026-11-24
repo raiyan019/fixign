@@ -5657,3 +5657,586 @@ body {
   top: 0;
   height: 0;
 }
+
+/* =====================================================================
+   PHONE / TABLET: easier "Start Now" button on the sticky cards
+   ===================================================================== */
+.stage--flow .gc {
+  display: flex !important;
+  flex-direction: column;
+}
+
+/* new order inside the card: image, title, text, BUTTON, then the categories */
+.stage--flow .gc .gc-image {
+  order: 1;
+  max-height: min(300px, 34svh);
+}
+.stage--flow .gc .gc-title {
+  order: 2;
+}
+.stage--flow .gc .gc-desc {
+  order: 3;
+}
+.stage--flow .gc .gc-btn {
+  order: 4;
+}
+.stage--flow .gc .gc-list {
+  order: 5;
+  margin: 8px 0 0;
+}
+
+/* big, full-width touch target (Apple recommends at least 44px) */
+.stage--flow .gc .gc-btn {
+  position: relative;
+  z-index: 6;
+  width: 100% !important;
+  height: 54px !important;
+  margin: 16px 0 6px !important;
+  padding: 0 24px !important;
+  justify-content: center;
+  font-size: 16px;
+  touch-action: manipulation; /* no double-tap zoom or delay on iOS */
+  -webkit-tap-highlight-color: rgba(254, 198, 45, 0.3);
+}
+.stage--flow .gc .gc-btn:active {
+  background: #fff;
+  transform: scale(0.98);
+}
+
+/* =====================================================================
+   PHONE / TABLET: every sticky card fits on one screen
+   ===================================================================== */
+.stage--flow .gc-track .gc {
+  padding: 16px 16px 18px;
+  margin-bottom: clamp(
+    60px,
+    14vh,
+    140px
+  ); /* resting space: the card stays fully visible before the next one arrives */
+  margin-bottom: clamp(
+    60px,
+    14svh,
+    140px
+  ); /* same, for newer iPhones (accounts for the Safari toolbar) */
+}
+.stage--flow .gc-track .gc:last-child {
+  margin-bottom: 0;
+}
+
+/* image height follows the screen height, so short phones get a smaller image */
+.stage--flow .gc .gc-image {
+  aspect-ratio: auto;
+  max-height: none;
+  height: clamp(120px, 24vh, 230px) !important;
+  height: clamp(120px, 24svh, 230px) !important;
+}
+
+/* tighter text, so long category names take less room */
+.stage--flow .gc .gc-title {
+  font-size: clamp(22px, 6vw, 30px);
+  line-height: 1.15;
+  margin: 14px 0 6px;
+}
+.stage--flow .gc .gc-desc {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.stage--flow .gc .gc-btn {
+  height: 52px !important;
+  margin: 12px 0 4px !important;
+}
+.stage--flow .gc .gc-list {
+  margin-top: 6px;
+  row-gap: 4px;
+}
+.stage--flow .gc .gc-list li {
+  font-size: 13px;
+  line-height: 1.35;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+/* =====================================================================
+   WORKS PAGE
+   filter buttons = x 300  y 610  w 1320
+   cards          = x 300  y 720  w 1320, 3 columns of 424 with a 24px gap
+   The card itself uses the same .pd-card look as the Products page.
+   ===================================================================== */
+.wk-tabs,
+.wk-wrap {
+  position: absolute;
+  left: 300px;
+  width: 1320px;
+}
+.wk-tabs {
+  top: 610px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.wk-wrap {
+  top: 720px;
+  min-height: 240px;
+}
+
+/* ---------- filter buttons ---------- */
+.wk-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 14px 0 20px;
+  border-radius: 24px;
+  background: #131318;
+  box-shadow: inset 0 0 0 1px #26262c;
+  font-size: 16px;
+  font-weight: 500;
+  color: #d0d0d0;
+  cursor: pointer;
+  transition:
+    background 0.25s,
+    color 0.25s,
+    box-shadow 0.25s,
+    transform 0.25s;
+}
+.wk-tab:hover {
+  color: #fff;
+  box-shadow: inset 0 0 0 1px var(--yellow);
+  transform: translateY(-2px);
+}
+.wk-tab--on,
+.wk-tab--on:hover {
+  background: var(--yellow);
+  color: #111;
+  font-weight: 700;
+  box-shadow: none;
+}
+.wk-count {
+  min-width: 26px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 13px;
+  font-weight: 700;
+}
+.wk-tab--on .wk-count {
+  background: rgba(0, 0, 0, 0.14);
+}
+
+/* ---------- cards ---------- */
+.wk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.wk-grid > li {
+  display: flex;
+  animation: wk-in 0.5s ease both;
+  animation-delay: calc(var(--n) * 60ms);
+}
+@keyframes wk-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.wk-grid .pd-card {
+  width: 100%;
+  height: auto;
+} /* the height follows the content */
+.wk-grid .pd-title {
+  margin-bottom: 22px;
+}
+.wk-grid .pd-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+} /* the whole card is clickable */
+
+.wk-empty {
+  padding: 100px 0;
+  text-align: center;
+  font-size: 18px;
+  color: #a9a9b0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wk-grid > li {
+    animation: none;
+  }
+  .wk-tab {
+    transition: none;
+  }
+}
+
+/* ---------- PHONE / TABLET ---------- */
+.stage--flow > :is(.wk-tabs, .wk-wrap) {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  min-width: 0;
+}
+.stage--flow > .wk-wrap {
+  min-height: 0;
+}
+/* the filter buttons become one row you can swipe sideways */
+.stage--flow > .wk-tabs {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-inline: calc(-1 * var(--pad));
+  padding-inline: var(--pad);
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+.stage--flow > .wk-tabs::-webkit-scrollbar {
+  display: none;
+}
+.stage--flow .wk-tab {
+  flex: none;
+}
+.stage--flow .wk-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+}
+.stage--flow .wk-grid .pd-card {
+  height: auto;
+}
+.stage--flow .wk-grid .pd-img {
+  height: auto;
+  aspect-ratio: 16 / 10;
+}
+@media (min-width: 700px) {
+  .stage--flow .wk-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =====================================================================
+   WORK DETAIL PAGE
+   .wd = x 410  y 250  w 1100 (the height grows with the content)
+   previous / next buttons = x 300  w 1320  h 150
+   ===================================================================== */
+.wd {
+  position: absolute;
+  left: 410px;
+  top: 250px;
+  width: 1100px;
+  color: #fff;
+}
+.wd-nav {
+  position: absolute;
+  left: 300px;
+  width: 1320px;
+  height: 150px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.wd-back {
+  display: inline-block;
+  margin-bottom: 22px;
+  font-size: 15px;
+  color: #a9a9b0;
+  transition: color 0.2s;
+}
+.wd-back:hover {
+  color: var(--yellow);
+}
+
+.wd-title {
+  font-size: 72px;
+  line-height: 80px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* intro, details, tags */
+.wd-head {
+  margin-top: 26px;
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+.wd-info {
+  max-width: 560px;
+}
+.wd-intro {
+  font-size: 17px;
+  line-height: 28px;
+  color: #bdbdc4;
+}
+.wd-meta {
+  margin-top: 34px;
+  display: grid;
+  grid-template-columns: repeat(2, 220px);
+  gap: 24px 40px;
+}
+.wd-meta dt {
+  font-size: 13px;
+  color: #8f8f96;
+}
+.wd-meta dd {
+  margin-top: 4px;
+  font-size: 16px;
+  font-weight: 700;
+}
+.wd-tags {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+.wd-tags li {
+  height: 34px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 17px;
+  box-shadow: inset 0 0 0 1px #3a3a40;
+  font-size: 14px;
+  font-weight: 600;
+  color: #d0d0d0;
+  transition:
+    box-shadow 0.25s,
+    color 0.25s;
+}
+.wd-tags li:hover {
+  box-shadow: inset 0 0 0 1px var(--yellow);
+  color: var(--yellow);
+}
+
+/* images (they show a dark box until you add the file) */
+.wd-pic {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1b1b22, #0e0e12);
+  box-shadow: inset 0 0 0 1px #24242a;
+}
+.wd-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s ease;
+}
+.wd-pic:hover img {
+  transform: scale(1.04);
+}
+.wd-cover,
+.wd-banner {
+  margin-top: 70px;
+  aspect-ratio: 1100 / 588;
+}
+.wd-banner {
+  margin-top: 110px;
+}
+
+/* Challenge / Solution: heading on the left, text on the right */
+.wd-story {
+  margin-top: 110px;
+  display: grid;
+  grid-template-columns: 462px minmax(0, 1fr);
+  gap: 40px;
+}
+.wd-story h2 {
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+}
+.wd-lead {
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 700;
+}
+.wd-text {
+  margin-top: 14px;
+  font-size: 15px;
+  line-height: 26px;
+  color: #a9a9b0;
+}
+
+/* the 4 images: row 1 small + wide, row 2 wide + small */
+.wd-gallery {
+  margin-top: 100px;
+  display: grid;
+  gap: 18px;
+}
+.wd-row {
+  display: grid;
+  gap: 18px;
+  height: 380px;
+}
+.wd-row .wd-pic {
+  height: 100%;
+  border-radius: 16px;
+}
+.wd-row--a {
+  grid-template-columns: 177fr 251fr;
+}
+.wd-row--b {
+  grid-template-columns: 251fr 177fr;
+}
+.wd-row--a .wd-pic:first-child {
+  background: linear-gradient(135deg, #2b2350, #15112a);
+}
+.wd-row--b .wd-pic:last-child {
+  background: linear-gradient(135deg, #3a3a12, #16160a);
+}
+
+.wd-nf {
+  padding: 40px 0 80px;
+  text-align: center;
+}
+.wd-nf p {
+  margin-top: 14px;
+  font-size: 17px;
+  color: #a9a9b0;
+}
+
+/* previous / next */
+.wd-pn {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 36px;
+  border-radius: 20px;
+  background: #131318;
+  box-shadow: inset 0 0 0 1px #24242a;
+  transition:
+    box-shadow 0.3s,
+    transform 0.35s;
+}
+.wd-pn--next {
+  justify-content: flex-end;
+  text-align: right;
+}
+.wd-pn:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    inset 0 0 0 1px var(--yellow),
+    0 0 28px rgba(254, 198, 45, 0.16);
+}
+.wd-pn small {
+  display: block;
+  font-size: 14px;
+  color: #8f8f96;
+}
+.wd-pn strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 700;
+}
+.wd-pn-arrow {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--yellow);
+  color: #111;
+  font-size: 24px;
+  font-weight: 700;
+  transition: transform 0.25s;
+}
+.wd-pn:hover .wd-pn-arrow {
+  transform: translateX(-6px);
+}
+.wd-pn--next:hover .wd-pn-arrow {
+  transform: translateX(6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wd-pic img,
+  .wd-pn,
+  .wd-pn-arrow,
+  .wd-tags li {
+    transition: none;
+  }
+  .wd-pn:hover,
+  .wd-pn:hover .wd-pn-arrow,
+  .wd-pn--next:hover .wd-pn-arrow {
+    transform: none;
+  }
+}
+
+/* ---------- PHONE / TABLET ---------- */
+.stage--flow > .wd {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  margin-top: 8px;
+}
+.stage--flow .wd-title {
+  font-size: clamp(34px, 9vw, 72px);
+  line-height: 1.1;
+}
+.stage--flow .wd-head {
+  flex-direction: column;
+  gap: 24px;
+}
+.stage--flow .wd-tags {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.stage--flow .wd-meta {
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.stage--flow .wd-cover {
+  margin-top: 40px;
+}
+.stage--flow .wd-banner {
+  margin-top: 56px;
+}
+.stage--flow .wd-story {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 56px;
+}
+.stage--flow .wd-story h2 {
+  font-size: 32px;
+}
+.stage--flow .wd-gallery {
+  margin-top: 56px;
+  gap: 10px;
+}
+.stage--flow .wd-row {
+  height: clamp(140px, 40vw, 300px);
+  gap: 10px;
+}
+.stage--flow > .wd-nav {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  height: auto !important;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+.stage--flow .wd-pn {
+  padding: 22px 20px;
+}
+.stage--flow .wd-pn strong {
+  font-size: 20px;
+  line-height: 26px;
+}

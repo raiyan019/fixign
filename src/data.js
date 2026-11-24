@@ -47,7 +47,7 @@ export const slides = [
 
 export const cta = {
   primary: { label: "Our Services", href: "#/services" },
-  secondary: { label: "See Portfolio", href: "#works" },
+  secondary: { label: "See Portfolio", href: "/works" },
 };
 
 export const SLIDE_DURATION = 5000; // ms
@@ -249,7 +249,7 @@ export const statCards = [
     suffix: "+",
     label: ["Successfully", "Completed Projects"],
     image: "/images/robot-ring.png",
-    button: { label: "See Works", href: "#works" },
+    button: { label: "See Works", href: "/works" },
   },
 ];
 
@@ -265,7 +265,7 @@ export const marquee2 = [
 export const featured = {
   title: ["FEATURED", "PROJECTS"],
   text: "Explore a selection of projects blending creativity with practical design",
-  button: { label: "See All Works", href: "#works" },
+  button: { label: "See All Works", href: "/works" },
   list: ["Web design", "Development", "Branding Design"],
   image: "/images/project.png",
   caption: "Creative Design template for modern agencies",
@@ -1086,3 +1086,190 @@ export const articlePages = {
 /* Services page: the sections below the cards were placed for this many cards */
 export const SC_BASE_COUNT = 6;
 export const SC_PITCH = 720; // height of one card + its gap
+
+/* ===================== WORKS PAGE ===================== */
+export const worksPage = {
+  title: "OUR WORKS",
+  crumbs: [{ label: "Home", href: "/" }, { label: "Works" }],
+  cta: "View project", // button text on every card
+  emptyText: "No projects in this category yet. Check back soon.",
+
+  // The filter buttons, in this order. "all" must stay first.
+  // The id is what each project's "category" must match.
+  categories: [
+    { id: "all", label: "All" },
+    { id: "web", label: "Web Design & Development" },
+    { id: "app", label: "App Development" },
+    { id: "uiux", label: "UI/UX Design" },
+    { id: "branding", label: "Branding Design" },
+    { id: "graphic", label: "Graphic Design" },
+  ],
+
+  // One object = one card. Copy a line to add a project, delete a line to remove one.
+  // category = one of the ids above. href = where the card goes ("#" = nowhere yet).
+  items: [
+    {
+      id: 1,
+      category: "web",
+      title: "Fashion Store Website",
+      image: "/images/work-1.png",
+      href: "#",
+    },
+    {
+      id: 2,
+      category: "app",
+      title: "Fitness Tracker App",
+      image: "/images/work-2.png",
+      href: "#",
+    },
+    {
+      id: 3,
+      category: "uiux",
+      title: "Banking App Redesign",
+      image: "/images/work-3.png",
+      href: "#",
+    },
+    {
+      id: 4,
+      category: "branding",
+      title: "Coffee Brand Identity",
+      image: "/images/work-4.png",
+      href: "#",
+    },
+    {
+      id: 5,
+      category: "graphic",
+      title: "Event Poster Series",
+      image: "/images/work-5.png",
+      href: "#",
+    },
+    {
+      id: 6,
+      category: "web",
+      title: "Law Firm Website",
+      image: "/images/work-6.png",
+      href: "#",
+    },
+    {
+      id: 7,
+      category: "app",
+      title: "Food Delivery App",
+      image: "/images/work-7.png",
+      href: "#",
+    },
+    {
+      id: 8,
+      category: "uiux",
+      title: "SaaS Dashboard UI",
+      image: "/images/work-8.png",
+      href: "#",
+    },
+    {
+      id: 9,
+      category: "branding",
+      title: "Tech Startup Branding",
+      image: "/images/work-9.png",
+      href: "#",
+    },
+    {
+      id: 10,
+      category: "graphic",
+      title: "Packaging Design",
+      image: "/images/work-10.png",
+      href: "#",
+    },
+    {
+      id: 11,
+      category: "web",
+      title: "Restaurant Website",
+      image: "/images/work-11.png",
+      href: "#",
+    },
+    {
+      id: 12,
+      category: "app",
+      title: "Travel Planner App",
+      image: "/images/work-12.png",
+      href: "#",
+    },
+  ],
+};
+
+/* ===================== WORK DETAIL PAGE (/works/<name>) ===================== */
+// the address of a project comes from its title: "Fashion Store Website" -> /works/fashion-store-website
+// (to keep an address fixed when you rename a project, add  slug: "my-address"  to its line in worksPage.items)
+export const workSlug = (it) =>
+  it.slug ||
+  String(it.title)
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+export const workPage = {
+  back: "← All works",
+  labels: {
+    client: "Client",
+    industry: "Industries",
+    services: "Services",
+    date: "Date",
+    challenge: "Challenge",
+    solution: "Solution",
+    prev: "Previous project",
+    next: "Next project",
+  },
+  notFound: {
+    title: "Project not found",
+    text: "This project does not exist or was moved.",
+  },
+};
+
+// What every project shows until you give it its own text and images (see workDetails below).
+// Images: put them in /public/images
+const workBase = {
+  intro:
+    "A short summary of the project: what we built, who it is for and the result it delivered.",
+  client: "Client name",
+  industry: "Industry",
+  services: "Web development",
+  date: "January 2026",
+  tags: ["Web design", "UI/UX design", "Development", "Branding"],
+  cover: "/images/work-detail-cover.png",
+  challenge: {
+    lead: "A short, bold summary of the challenge the client came to us with.",
+    text: "Describe the problem in two or three sentences: the goals, the audience and what was not working before. Keep it clear and simple so a visitor understands it in a few seconds.",
+  },
+  gallery: [
+    "/images/work-detail-1.png",
+    "/images/work-detail-2.png",
+    "/images/work-detail-3.png",
+    "/images/work-detail-4.png",
+  ],
+  solution: {
+    lead: "A short, bold summary of how we solved it.",
+    text: "Explain what we designed and built, and the result: more visitors, better sales, a faster site. Use the same short style as the challenge text above.",
+  },
+  banner: "/images/work-detail-banner.png",
+};
+
+// Give one project its own content. The key is the project's address (see workSlug above).
+// Write only what changes: everything else stays as in workBase. Example:
+export const workDetails = {
+  // "fashion-store-website": {
+  //   client: "Mix Design",
+  //   industry: "Fashion",
+  //   date: "March 2026",
+  //   tags: ["Web design", "Development"],
+  //   intro: "A fast online store for a growing fashion brand.",
+  //   cover: "/images/fashion/cover.png",
+  //   challenge: { lead: "...", text: "..." },
+  //   gallery: ["/images/fashion/1.png", "/images/fashion/2.png", "/images/fashion/3.png", "/images/fashion/4.png"],
+  //   solution: { lead: "...", text: "..." },
+  //   banner: "/images/fashion/banner.png",
+  // },
+};
+
+export const getWorkDetail = (it) => ({
+  ...workBase,
+  ...(workDetails[workSlug(it)] || {}),
+});

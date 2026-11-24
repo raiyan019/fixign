@@ -10,6 +10,8 @@ import ProductsPage from "./components/ProductsPage.jsx";
 import ContactPage from "./components/ContactPage.jsx";
 import ArticlePage from "./components/ArticlePage.jsx";
 import BlogPage from "./components/BlogPage.jsx";
+import WorksPage from "./components/WorksPage.jsx";
+import WorkPage from "./components/WorkPage.jsx";
 import { SECTION2_H, gcExtra } from "./data.js";
 import { useContent } from "./content/ContentProvider.jsx";
 
@@ -19,13 +21,14 @@ const MAIN_URL = IS_BLOG
   ? window.location.origin.replace("//blog.", "//")
   : window.location.origin;
 
-const ROUTES = ["services", "about", "pricing", "products", "contact"];
+const ROUTES = ["services", "about", "pricing", "products", "contact", "works"];
 
 const pathToRoute = (p) => {
   const s = p.replace(/^\/|\/$/g, "");
   if (IS_BLOG) return s ? { name: "article", slug: s } : { name: "blog" };
   if (s === "blog") return { name: "blog" };
   if (s.startsWith("blog/")) return { name: "article", slug: s.slice(5) };
+  if (s.startsWith("works/")) return { name: "work", slug: s.slice(6) };
   return { name: ROUTES.includes(s) ? s : "home" };
 };
 
@@ -126,6 +129,8 @@ export default function App() {
   if (name === "pricing") return <PricingPage />;
   if (name === "products") return <ProductsPage />;
   if (name === "contact") return <ContactPage />;
+  if (name === "works") return <WorksPage />;
+  if (name === "work") return <WorkPage key={slug} slug={slug} />;
   if (name === "article") return <ArticlePage key={slug} slug={slug} />;
   if (name === "blog") return <BlogPage />;
 
